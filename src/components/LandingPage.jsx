@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Icon } from "@iconify/react"; // Importing icons from Iconify
+import { Icon } from "@iconify/react"; 
 import "../styles/App.css";
 import resume from "../assets/Resume.png";
 import logo from "../assets/logo.png";
