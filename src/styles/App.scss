@@ -1,12 +1,13 @@
 $primary-color: #007bff;
 $secondary-color: #0056b3;
-$dark-bg: #323131;
+$dark-bg: #1e1e1e;
 $light-bg: #f4f7fc;
 $text-light: #222;
 $text-dark: #fff;
 $button-radius: 50px;
 $dark-accent: #ff007b;
 $dark-hover: #ff7300;
+$border-radius: 10px;
 
 @mixin flex-center {
   display: flex;
@@ -52,17 +53,18 @@ body {
   }
 }
 
+
+
 /*-----------Landing Page section starts here ---------*/
 .landing-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   height: 100vh;
-  padding: 40px;
   position: relative;
   overflow: hidden;
-  background-color: #f8f9fa; 
+  background-color: #f8f9fa;
+  padding-inline: 40px; 
 
   &::before {
     content: "";
@@ -95,15 +97,11 @@ body {
     }
   }
 }
-//Navbar 
+/*-----------NavBar section starts here ---------*/
 .navbar {
   @include flex-center;
   justify-content: space-between;
   width: 100%;
-  padding: 10px 40px;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .logo-container {
@@ -250,13 +248,14 @@ body {
   transform: translate(4.3em, 0.7em) rotate(-15deg);
 }
 
+/*-----------NavBar section ends here ---------*/
+
 .content-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
   max-width: 90%;
   width: 100%;
-  margin-top: 80px;
 }
 
 .text-section {
@@ -428,9 +427,11 @@ body {
 @media (max-width: 480px) {
   .landing-container{
     height: max-content;
+    padding-inline: 0;
   }
   .navbar {
-    padding: 10px 20px;
+    padding: 0;
+    gap:0;
   }
 
   .logo {
@@ -446,7 +447,7 @@ body {
     display: flex;
     align-items: center;
     text-align: center;
-    margin-top: 60px;
+    margin-top: 20px;
   }
 
   .resume-section {
@@ -463,6 +464,7 @@ body {
 
   .text-section {
     width: 100%;
+    padding: 10px;
   }
 
   .landing-title {
@@ -476,7 +478,7 @@ body {
 
   .landing-description {
     font-size: 0.95rem;
-    max-width: 300px;
+    max-width: 350px;
   }
 
   .toggle-slot {
@@ -487,5 +489,455 @@ body {
   .toggle-button {
     height: 2em;
     width: 2em;
+  }
+  
+  .sun-icon-wrapper {
+    transform: translate(0.5em, 0.5em) rotate(15deg);
+  }
+  
+  .toggle-checkbox:checked ~ .toggle-slot .sun-icon-wrapper {
+    opacity: 0;
+    transform: translate(1.5em, 0.7em) rotate(0deg);
+  }
+  
+  .toggle-checkbox:checked ~ .toggle-slot .moon-icon-wrapper {
+    transform: translate(3.5em, 0.4em) rotate(-15deg);
+  }
+}
+
+
+/*-------------RESUME BUILDER PAGE STARTS HERE -------------------*/
+.resume-builder {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--light-bg);
+  color: var(--text-light);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-inline: 4rem;
+}
+
+body.dark .resume-builder {
+  background-color: var(--dark-bg);
+  color: var(--text-dark);
+}
+
+.main-container {
+  display: flex;
+  gap: 5rem;
+  padding: 20px;
+}
+
+//Resume Preview Page starts here 
+.resume-pdf-container {
+  transition: background 0.3s;
+}
+
+/* Resume Buttons */
+.resume-actions {
+  transition: background 0.3s;
+}
+
+.resume-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: $light-bg;
+  border-radius: $border-radius;
+  min-height: 550px;
+  transition: background 0.3s ease-in-out;
+}
+
+/* Resume Content */
+.resume-container {
+  background: white;
+  width: 325px;
+  height: 460px;
+  padding: 1.5rem;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+}
+
+h1, h2, h3 {
+  color: black;
+}
+
+.contact a {
+  color: $primary-color;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.contact span {
+  color: $text-light;
+}
+
+/* Resume Buttons */
+.resume-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: $border-radius;
+  transition: background 0.3s ease-in-out;
+}
+
+/*action Button */
+.action-btn {
+  background: $primary-color;
+  color: $text-dark;
+  padding: 0.7rem 1.4rem;
+  border-radius: $button-radius;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.3);
+
+  &:hover {
+    background: $secondary-color;
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 12px rgba(0, 86, 179, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+
+//Resume popup as Preview //
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Darkish overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Popup Content */
+.popup-content {
+  background: white;
+  width: 210mm; /* A4 width */
+  height: 297mm; /* A4 height */
+  padding: 20px; /* Minimal padding */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow-y: auto;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+}
+
+.close-btn:hover {
+  background: #e60000;
+}
+
+/* Resume Popup Content */
+.resume-popup-content {
+  width: 100%;
+  height: 100%;
+  padding: 20px; /* Minimal padding */
+  box-sizing: border-box;
+}
+
+/* Resume Container */
+.resume-container {
+  font-family: Arial, sans-serif;
+  color: #333;
+  padding: 20px; /* Minimal padding */
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header .name {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.header .contact {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Sections */
+.summary,
+.education,
+.experience,
+.projects,
+.skills {
+  margin-bottom: 20px;
+}
+
+.summary h2,
+.education h2,
+.experience h2,
+.projects h2,
+.skills h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+.education-item,
+.experience-item,
+.project-item {
+  margin-bottom: 1rem;
+}
+
+.education-item h3,
+.experience-item h3,
+.project-item h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.education-item span,
+.experience-item span,
+.project-item a {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.skills p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+
+//----------Form section starts here -------------//
+.form-section {
+  flex: 2;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  max-width: 800px;
+  max-height: max-content;
+  margin: 0 auto; 
+
+  .nav-tabs {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #eee;
+
+    button {
+      background: none;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      color: #666;
+      transition: all 0.3s;
+      font-size: 14px;
+      position: relative;
+
+      &.active {
+        color: #3498db;
+        border-bottom: 2px solid #3498db;
+        font-weight: 700;
+      }
+
+      &:hover {
+        color: #3498db;
+      }
+    }
+  }
+
+  .form-container {
+    max-height: max-content;
+    .g1 {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      label {
+        width: 150px;
+        margin-right: 15px;
+        text-align: right;
+        flex-shrink: 0;
+        font-weight: 600;
+        color: #444;
+      }
+
+      textarea {
+        flex-grow: 1;
+        min-height: 120px;
+        padding: 0.8rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        resize: vertical;
+        font-size: 14px;
+        line-height: 1.5;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s;
+
+        &:focus {
+          outline: none;
+          border-color: #3498db;
+          box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+      }
+    }
+
+    .add-button-container {
+      text-align: right;
+      margin-bottom: 1rem;
+
+      button {
+        background: #3498db;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.3s;
+        font-size: 14px;
+
+        &:hover {
+          background: #2980b9;
+        }
+      }
+    }
+
+    .form-actions {
+      text-align: right;
+      margin-bottom: 1rem;
+
+      button {
+        background: #3498db;
+        color: white;
+        padding: 0.6rem 1.2rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.3s;
+        font-size: 14px;
+
+        &:hover {
+          background: #2980b9;
+        }
+      }
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+
+      .input-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        label {
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+          color: #444;
+          font-size: 14px;
+        }
+
+        input,
+        textarea {
+          padding: 0.8rem;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          transition: border-color 0.3s;
+          font-size: 14px;
+
+          &:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+          }
+        }
+
+        textarea {
+          min-height: 100px;
+        }
+      }
+    }
+
+    .collapsible-section {
+      border: 1px solid #ddd;
+      margin-bottom: 0.8rem;
+      border-radius: 6px;
+      background: #f9f9f9;
+      transition: all 0.3s ease;
+  }
+  
+  .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem;
+      background-color: #f1f1f1;
+      cursor: pointer;
+      border-radius: 6px 6px 0 0;
+  }
+  
+  .section-header h3 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #444;
+  }
+  
+  .section-header button {
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.3s;
+  }
+  
+  .section-header button:hover {
+      background-color: #e60000;
+  }
+  
+  .section-content {
+      padding: 0.8rem;
+      background-color: #fff;
+      border-radius: 0 0 6px 6px;
+  }
   }
 }
