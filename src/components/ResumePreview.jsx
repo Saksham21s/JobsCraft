@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import "../styles/App.css";
+import "../styles/Resume.css";
 import { FaDownload, FaTimes } from "react-icons/fa";
 
 const ResumePreview = ({ formData }) => {
@@ -10,7 +10,7 @@ const ResumePreview = ({ formData }) => {
         if (!resumeRef.current) return;
 
         if (type === "preview") {
-            setIsPopupOpen(true); // Open the popup
+            setIsPopupOpen(true);
         } else if (type === "download") {
             const button = e.currentTarget;
             button.classList.add("clicked");
