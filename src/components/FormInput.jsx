@@ -1,26 +1,37 @@
 import React, { useState, useEffect } from "react";
+import { FaSave } from 'react-icons/fa';
 
 const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
-    const [localFormData, setLocalFormData] = useState({
-        fullName: "",
-        jobTitle: "",
-        email: "",
-        phone: "",
-        address: "",
-        linkedin: "",
-        github: "",
-        portfolio: "",
-        summary: "",
-        education: [{ degree: "", school: "", startDate: "", endDate: "", location: "", gpa: "" }],
-        experience: [{ title: "", company: "", startDate: "", endDate: "", location: "", description: "" }],
-        projects: [{ name: "", link: "", description: "" }],
-        skills: "",
-        certifications: [{ name: "", issuer: "", issueDate: "", expirationDate: "", credentialID: "", credentialURL: "" }]
+    const [localFormData, setLocalFormData] = useState(() => {
+        const storedData = sessionStorage.getItem("formData");
+        return storedData ? JSON.parse(storedData) : {
+            fullName: "",
+            jobTitle: "",
+            email: "",
+            phone: "",
+            address: "",
+            linkedin: "",
+            github: "",
+            portfolio: "",
+            summary: "",
+            education: [{ degree: "", school: "", startDate: "", endDate: "", location: "", gpa: "" }],
+            experience: [{ title: "", company: "", startDate: "", endDate: "", location: "", description: "" }],
+            projects: [{ name: "", link: "", description: "" }],
+            skills: "",
+            certifications: [{ name: "", issuer: "", issueDate: "", expirationDate: "", credentialID: "", credentialURL: "" }]
+        };
     });
 
-    const [expandedSections, setExpandedSections] = useState({});
+    const [expandedSections, setExpandedSections] = useState(() => {
+        const storedSections = sessionStorage.getItem("expandedSections");
+        return storedSections ? JSON.parse(storedSections) : {};
+    });
 
-    // Automatically open the first card and close it when a second card is added
+    useEffect(() => {
+        sessionStorage.setItem("formData", JSON.stringify(localFormData));
+        sessionStorage.setItem("expandedSections", JSON.stringify(expandedSections));
+    }, [localFormData, expandedSections]);
+
     useEffect(() => {
         const section = activeTab.toLowerCase();
         if (localFormData[section] && localFormData[section].length === 1) {
@@ -213,8 +224,7 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
                                         </div>
                                     </div>
                                 )}
-                            </div>
-                        ))}
+                            </div>))}
                     </>
                 );
             case "Projects":
@@ -328,7 +338,10 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
                 {renderInputFields()}
                 <div className="form-actions">
                     <div></div>
-                    <button type="button" className="save-btn" onClick={handleSave}>Save</button>
+                    <button type="button" className="save-btn" onClick={handleSave}>
+                        <span>Save</span>
+                        <FaSave className="icon" />
+                    </button>
                 </div>
             </div>
         </div>

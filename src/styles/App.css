@@ -6,7 +6,7 @@
 }
 
 body {
-  background: #f4f7fc;
+  background: #d6e5ff;
   color: #222;
   transition: background 0.3s ease-in-out;
 }
@@ -63,10 +63,15 @@ body.dark .landing-container::before {
   justify-content: center;
   gap: 10px;
 }
+.logo-container a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
 
 .logo {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 }
 
 @keyframes flowingColors {
@@ -81,7 +86,7 @@ body.dark .landing-container::before {
   }
 }
 .logo-text {
-  font-size: 2.6rem;
+  font-size: 2.4rem;
   font-weight: 800;
   color: #222;
   text-transform: uppercase;
@@ -289,7 +294,7 @@ body.dark .landing-description {
   padding: 14px 28px;
 }
 .create-resume-btn:hover {
-  transform: scale(1.08) translateY(-3px);
+  transform: scale(1.05);
   box-shadow: 0px 15px 30px rgba(0, 123, 255, 0.4);
 }
 body.dark .create-resume-btn {
@@ -314,9 +319,11 @@ body.dark .create-resume-btn {
   font-size: 1.1rem;
   font-weight: 700;
   padding: 14px 28px;
+  display: flex;
+  align-items: center;
 }
 .view-source-btn:hover {
-  transform: scale(1.08) translateY(-3px);
+  transform: scale(1.05);
   box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.5);
 }
 body.dark .view-source-btn {
@@ -474,15 +481,9 @@ body.dark .view-source-btn {
   }
 }
 
-body.dark .resume-builder {
-  background-color: var(--dark-bg);
-  color: var(--text-dark);
-}
-
 .main-container {
   display: flex;
   gap: 3rem;
-  padding: 20px;
   align-items: flex-start;
 }
 @media (max-width: 768px) {
@@ -499,7 +500,7 @@ body.dark .resume-builder {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #f4f7fc;
+  background: #d6e5ff;
   border-radius: 10px;
   min-height: 550px;
   transition: background 0.3s ease-in-out;
@@ -526,8 +527,9 @@ body.dark .resume-builder {
 }
 @media (max-width: 768px) {
   .resume-container {
-    width: 250px;
-    height: 375px;
+    width: 300px;
+    height: 435px;
+    padding: 1rem;
   }
 }
 
@@ -584,9 +586,8 @@ body.dark .resume-builder {
 /* Form Section */
 .form-section {
   flex: 2;
-  background: #ffffff;
+  background: #d6e5ff;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   margin: 0 auto;
 }
@@ -601,26 +602,27 @@ body.dark .resume-builder {
   gap: 0.5rem;
   justify-content: center;
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #eee;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  padding-block: 13px;
+  border-radius: 8px;
 }
 .form-section .nav-tabs button {
   background: none;
   border: none;
-  padding: 0.8rem 1.5rem;
+  padding: 0.8rem 1.2rem;
   cursor: pointer;
   font-weight: 600;
   color: #666;
   transition: all 0.3s;
   font-size: 14px;
-  position: relative;
 }
 .form-section .nav-tabs button.active {
-  color: #3498db;
-  border-bottom: 2px solid #3498db;
+  color: #ffffff;
+  background-color: #007bff;
+  border: 2px solid #007bff;
+  border-radius: 5px;
   font-weight: 700;
-}
-.form-section .nav-tabs button:hover {
-  color: #3498db;
 }
 @media (max-width: 768px) {
   .form-section .nav-tabs button {
@@ -629,6 +631,12 @@ body.dark .resume-builder {
     padding: 0.6rem;
     font-size: 12px;
   }
+}
+.form-section .form-container {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 .form-section .form-container .g1 {
   display: flex;
@@ -794,7 +802,13 @@ body.dark .resume-builder {
   cursor: pointer;
   font-weight: 600;
   transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 14px;
+}
+.form-section .form-container .form-actions .save-btn .icon {
+  margin-left: 8px;
 }
 .form-section .form-container .form-actions .save-btn:hover {
   background: #0056b3;
@@ -804,4 +818,125 @@ body.dark .resume-builder {
     width: 100%;
     text-align: center;
   }
+}
+
+/* Popup Preview starts here */
+/*Popup section starts here */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: #d6e5ff;
+  width: max-content;
+  display: grid;
+  place-items: center;
+  height: max-content;
+  overflow: auto;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+
+.popup-content:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #ff2424;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.resume-popup-content {
+  padding: 30px;
+}
+
+/*---------Resume Templates button ----------------*/
+.fab-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fab {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.fab:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+.fab-menu {
+  background: white;
+  border-radius: 10px;
+  position: absolute;
+  top: 80px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 250px;
+}
+
+.fab-option {
+  background: #d6e5ff;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.fab-option:hover {
+  background: #dbe2ef;
+}
+
+.template-preview {
+  width: 90px;
+  height: 120px;
+  border-radius: 5px;
+  object-fit: contain;
+  border: 1px solid #ccc;
 }/*# sourceMappingURL=App.css.map */

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import "../styles/App.min.css";
 import logo from "../assets/logo.png";
 import { Sun, Moon } from "react-feather";
@@ -18,10 +19,12 @@ function NavBar({ hideToggle }) {
 
   return (
     <div className="navbar">
-      <div className="logo-container">
-        <img src={logo} alt="JobsCraft Logo" className="logo" />
-        <span className="logo-text">JobsCraft</span>
-      </div>
+     <div className="logo-container">
+            <Link to="/">
+                <img src={logo} alt="JobsCraft Logo" className="logo" />
+                <span className="logo-text">JobsCraft</span>
+            </Link>
+        </div>
 
       {/* ✅ Hide toggle button if hideToggle is true */}
       {!hideToggle && (
