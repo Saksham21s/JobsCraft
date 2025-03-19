@@ -868,6 +868,9 @@ body.dark .view-source-btn {
 
 .resume-popup-content {
   padding: 30px;
+  background-color: white;
+  height: 40rem;
+  width: 25rem;
 }
 
 /*---------Resume Templates button ----------------*/

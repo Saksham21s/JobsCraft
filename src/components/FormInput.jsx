@@ -43,6 +43,21 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+    
+        let newValue = value;
+    
+        // Ensure first bullet point is automatically added
+        if (e.target.tagName === "TEXTAREA") {
+            if (!newValue.startsWith("• ")) {
+                newValue = "• " + newValue;
+            }
+    
+            // When Enter is pressed, add a new bullet point on a new line
+            if (e.nativeEvent.inputType === "insertLineBreak") {
+                newValue = value + "• ";
+            }
+        }
+    
         setLocalFormData(prev => {
             const keys = name.split('.');
             let temp = { ...prev };
@@ -50,11 +65,11 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
             for (let i = 0; i < keys.length - 1; i++) {
                 current = current[keys[i]];
             }
-            current[keys[keys.length - 1]] = value;
+            current[keys[keys.length - 1]] = newValue;
             return temp;
         });
     };
-
+    
     const handleSave = () => {
         setFormData(localFormData);
     };
@@ -91,38 +106,28 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
                                 <input type="text" name="fullName" value={localFormData.fullName} onChange={handleChange} />
                             </div>
                             <div className="input-group">
-                                <label>Job Title</label>
-                                <input type="text" name="jobTitle" value={localFormData.jobTitle} onChange={handleChange} />
-                            </div>
-                        </div>
-                        <div className="form-row">
-                            <div className="input-group">
                                 <label>Email</label>
                                 <input type="email" name="email" value={localFormData.email} onChange={handleChange} />
                             </div>
+                        </div>
+                        <div className="form-row"> 
                             <div className="input-group">
                                 <label>Phone</label>
                                 <input type="text" name="phone" value={localFormData.phone} onChange={handleChange} />
                             </div>
-                        </div>
-                        <div className="form-row">
-                            <div className="input-group">
-                                <label>Address</label>
-                                <input type="text" name="address" value={localFormData.address} onChange={handleChange} />
-                            </div>
-                            <div className="input-group">
-                                <label>LinkedIn</label>
-                                <input type="text" name="linkedin" value={localFormData.linkedin} onChange={handleChange} />
-                            </div>
-                        </div>
-                        <div className="form-row">
                             <div className="input-group">
                                 <label>GitHub</label>
                                 <input type="text" name="github" value={localFormData.github} onChange={handleChange} />
                             </div>
-                            <div className="input-group">
+                        </div>
+                        <div className="form-row">
+                        <div className="input-group">
                                 <label>Portfolio</label>
                                 <input type="text" name="portfolio" value={localFormData.portfolio} onChange={handleChange} />
+                            </div>
+                            <div className="input-group">
+                                <label>LinkedIn</label>
+                                <input type="text" name="linkedin" value={localFormData.linkedin} onChange={handleChange} />
                             </div>
                         </div>
                     </>

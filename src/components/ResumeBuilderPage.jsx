@@ -31,7 +31,7 @@ const ResumeBuilder = () => {
 
     const [activeTab, setActiveTab] = useState(() => sessionStorage.getItem("activeTab") || "Contact");
     const [menuOpen, setMenuOpen] = useState(false);
-    const [selectedTemplate, setSelectedTemplate] = useState(null);
+    const [selectedTemplate, setSelectedTemplate] = useState("Classic");
     const menuRef = useRef(null);
 
     useEffect(() => {
@@ -76,7 +76,7 @@ const ResumeBuilder = () => {
                 {menuOpen && (
                     <div className="fab-menu">
                         {templates.map((template) => (
-                            <button key={template.id} className="fab-option" onClick={() => setSelectedTemplate(template.id)}>
+                            <button key={template.id} className="fab-option" onClick={() => setSelectedTemplate(template.name)}>
                                 <img src={template.preview} alt={template.name} className="template-preview" />
                                 {template.name}
                             </button>

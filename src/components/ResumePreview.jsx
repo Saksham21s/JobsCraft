@@ -1,264 +1,63 @@
-import React, { useRef, useState, useEffect } from "react";
-import "../styles/Resume.css";
+import React, { useRef, useState, Suspense } from "react";
 import { FaDownload, FaTimes, FaEye } from "react-icons/fa";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import ClassicResume from "./ResumeTemplates/ClassicResume";
+import ModernResume from "./ResumeTemplates/ModernResume";
+import CreativeResume from "./ResumeTemplates/CreativeResume";
 
-const ResumePreview = ({ formData }) => {
-    const resumeRef = useRef(null);
+const templates = {
+    Classic: ClassicResume,
+    Modern: ModernResume,
+    Creative: CreativeResume,
+};
+
+const ResumePreview = ({ formData, template }) => {
+    const resumeRef = useRef();
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const SelectedTemplate = templates[template] || ClassicResume;
 
-    useEffect(() => {
-        if (!formData) {
-            const storedData = localStorage.getItem("formData");
-            if (storedData) {
-                formData = JSON.parse(storedData);
-            }
-        }
-    }, [formData]);
+    const handlePreview = () => setIsPopupOpen(true);
+    const closePopup = () => setIsPopupOpen(false);
 
-    const handleAction = (type, e) => {
-        if (!resumeRef.current) return;
-
-        if (type === "preview") {
-            setIsPopupOpen(true);
-        } else if (type === "download") {
-            const button = e.currentTarget;
-            button.classList.add("clicked");
-            setTimeout(() => button.classList.remove("clicked"), 500);
-
-            const resumeHTML = resumeRef.current.outerHTML;
-            const element = document.createElement("a");
-            const file = new Blob([resumeHTML], { type: "text/html" });
-            element.href = URL.createObjectURL(file);
-            element.download = "resume.html";
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
-        }
-    };
-
-    const closePopup = () => {
-        setIsPopupOpen(false);
+    const handleDownload = () => {
+        html2canvas(resumeRef.current).then((canvas) => {
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF("p", "mm", "a4");
+            const width = pdf.internal.pageSize.getWidth();
+            const height = (canvas.height * width) / canvas.width;
+            pdf.addImage(imgData, "PNG", 0, 0, width, height);
+            pdf.save(`${formData.fullName || "Resume"}_Resume.pdf`);
+        });
     };
 
     return (
         <div className="resume-preview">
-            {/* Popup Overlay */}
             {isPopupOpen && (
                 <div className="popup-overlay">
                     <div className="popup-content">
                         <button className="close-btn" onClick={closePopup}>
                             <FaTimes />
                         </button>
-                        <div className="resume-popup-content">
-                            <div className="resume-container">
-                                {/* Header */}
-                                {(formData?.fullName || formData?.phone || formData?.email || formData?.linkedin || formData?.github || formData?.portfolio) && (
-                                    <section className="header">
-                                        {formData.fullName && <h1 className="name">{formData.fullName}</h1>}
-                                        <div className="contact">
-                                            {formData.phone && <span>{formData.phone}</span>}
-                                            {formData.email && <a href={`mailto:${formData.email}`}>{formData.email}</a>}
-                                            {formData.linkedin && <a href={formData.linkedin}>LinkedIn</a>}
-                                            {formData.github && <a href={formData.github}>GitHub</a>}
-                                            {formData.portfolio && <a href={formData.portfolio}>Portfolio</a>}
-                                        </div>
-                                    </section>
-                                )}
-
-                                {/* Summary */}
-                                {formData?.summary && formData.summary.trim() && (
-                                    <section className="summary">
-                                        <h2>Summary</h2>
-                                        <p>{formData.summary}</p>
-                                    </section>
-                                )}
-
-                                {/* Education */}
-                                {formData?.education?.length > 0 && formData.education.some(edu => edu.degree || edu.school) && (
-                                    <section className="education">
-                                        <h2>Education</h2>
-                                        {formData.education.map((edu, index) => (
-                                            (edu.degree || edu.school) && (
-                                                <div key={index} className="education-item">
-                                                    {edu.degree && <h3>{edu.degree}</h3>}
-                                                    <div className="education-details">
-                                                        {edu.school && <span>{edu.school}</span>}
-                                                        {(edu.startDate || edu.endDate) && (
-                                                            <span>
-                                                                {edu.startDate} - {edu.endDate}
-                                                            </span>
-                                                        )}
-                                                        {edu.location && <span>{edu.location}</span>}
-                                                    </div>
-                                                </div>
-                                            )
-                                        ))}
-                                    </section>
-                                )}
-
-                                {/* Experience */}
-                                {formData?.experience?.length > 0 && formData.experience.some(exp => exp.title || exp.company) && (
-                                    <section className="experience">
-                                        <h2>Experience</h2>
-                                        {formData.experience.map((exp, index) => (
-                                            (exp.title || exp.company) && (
-                                                <div key={index} className="experience-item">
-                                                    {exp.title && <h3>{exp.title} at {exp.company}</h3>}
-                                                    {(exp.startDate || exp.endDate) && (
-                                                        <span>
-                                                            {exp.startDate} - {exp.endDate}
-                                                        </span>
-                                                    )}
-                                                    {exp.description && <p>{exp.description}</p>}
-                                                </div>
-                                            )
-                                        ))}
-                                    </section>
-                                )}
-
-                                {/* Projects */}
-                                {formData?.projects?.length > 0 && formData.projects.some(proj => proj.name || proj.description) && (
-                                    <section className="projects">
-                                        <h2>Projects</h2>
-                                        {formData.projects.map((proj, index) => (
-                                            (proj.name || proj.description) && (
-                                                <div key={index} className="project-item">
-                                                    {proj.name && <h3>{proj.name}</h3>}
-                                                    {proj.link && (
-                                                        <div className="project-link">
-                                                            <a href={proj.link}>{proj.link}</a>
-                                                        </div>
-                                                    )}
-                                                    {proj.description && <p>{proj.description}</p>}
-                                                </div>
-                                            )
-                                        ))}
-                                    </section>
-                                )}
-
-                                {/* Skills */}
-                                {formData?.skills && formData.skills.trim() && (
-                                    <section className="skills">
-                                        <h2>Skills</h2>
-                                        <p>{formData.skills}</p>
-                                    </section>
-                                )}
-                            </div>
+                        <div className="resume-popup-content" ref={resumeRef}>
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <SelectedTemplate formData={formData} />
+                            </Suspense>
                         </div>
                     </div>
                 </div>
             )}
-
-            {/* Original Resume Container */}
             <div className="resume-container" ref={resumeRef}>
-                {/* Header */}
-                {(formData?.fullName || formData?.phone || formData?.email || formData?.linkedin || formData?.github || formData?.portfolio) && (
-                    <section className="header">
-                        {formData.fullName && <h1 className="name">{formData.fullName}</h1>}
-                        <div className="contact">
-                            {formData.phone && <span>{formData.phone}</span>}
-                            {formData.email && <a href={`mailto:${formData.email}`}>{formData.email}</a>}
-                            {formData.linkedin && <a href={formData.linkedin}>LinkedIn</a>}
-                            {formData.github && <a href={formData.github}>GitHub</a>}
-                            {formData.portfolio && <a href={formData.portfolio}>Portfolio</a>}
-                        </div>
-                    </section>
-                )}
-
-                {/* Summary */}
-                {formData?.summary && formData.summary.trim() && (
-                    <section className="summary">
-                        <h2>Summary</h2>
-                        <p>{formData.summary}</p>
-                    </section>
-                )}
-
-                {/* Education */}
-                {formData?.education?.length > 0 && formData.education.some(edu => edu.degree || edu.school) && (
-                    <section className="education">
-                        <h2>Education</h2>
-                        {formData.education.map((edu, index) => (
-                            (edu.degree || edu.school) && (
-                                <div key={index} className="education-item">
-                                    {edu.degree && edu.school ? (
-                                        <h3>{edu.degree} at {edu.school}</h3>
-                                    ) : (
-                                        edu.degree ? <h3>{edu.degree}</h3> : <h3>{edu.school}</h3>
-                                    )}
-                                    <div className="education-details">
-                                        {(edu.startDate || edu.endDate) && (
-                                            <span>
-                                                {edu.startDate} - {edu.endDate}
-                                            </span>
-                                        )}
-                                        {edu.location && <span>{edu.location}</span>}
-                                    </div>
-                                </div>
-                            )
-                        ))}
-                    </section>
-                )}
-
-                {/* Experience */}
-                {formData?.experience?.length > 0 && formData.experience.some(exp => exp.title || exp.company) && (
-                    <section className="experience">
-                        <h2>Experience</h2>
-                        {formData.experience.map((exp, index) => (
-                            (exp.title || exp.company) && (
-                                <div key={index} className="experience-item">
-                                    {exp.title && exp.company ? (
-                                        <h3>{exp.title} at {exp.company}</h3>
-                                    ) : (
-                                        exp.title ? <h3>{exp.title}</h3> : <h3>{exp.company}</h3>
-                                    )}
-                                    {(exp.startDate || exp.endDate) && (
-                                        <span>
-                                            {exp.startDate} - {exp.endDate}
-                                        </span>
-                                    )}
-                                    {exp.description && <p>{exp.description}</p>}
-                                </div>
-                            )
-                        ))}
-                    </section>
-                )}
-
-                {/* Projects */}
-                {formData?.projects?.length > 0 && formData.projects.some(proj => proj.name || proj.description) && (
-                    <section className="projects">
-                        <h2>Projects</h2>
-                        {formData.projects.map((proj, index) => (
-                            (proj.name || proj.description) && (
-                                <div key={index} className="project-item">
-                                    {proj.name && <h3>{proj.name}</h3>}
-                                    {proj.link && (
-                                        <div className="project-link">
-                                            <a href={proj.link}>{proj.link}</a>
-                                        </div>
-                                    )}
-                                    {proj.description && <p>{proj.description}</p>}
-                                </div>
-                            )
-                        ))}
-                    </section>
-                )}
-
-                {/* Skills */}
-                {formData?.skills && formData.skills.trim() && (
-                    <section className="skills">
-                        <h2>Skills</h2>
-                        <p>{formData.skills}</p>
-                    </section>
-                )}
+                <Suspense fallback={<div>Loading...</div>}>
+                    <SelectedTemplate formData={formData} />
+                </Suspense>
             </div>
-
-            {/* Buttons */}
             <div className="resume-buttons">
-                <button className="action-btn" onClick={() => handleAction("preview")}>
+                <button className="action-btn" onClick={handlePreview}>
                     <span>Preview</span>
                     <FaEye className="icon" />
                 </button>
-                <button className="action-btn" onClick={(e) => handleAction("download", e)}>
+                <button className="action-btn" onClick={handleDownload}>
                     <span>Download</span>
                     <FaDownload className="icon" />
                 </button>
