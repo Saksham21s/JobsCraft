@@ -6,10 +6,10 @@ import "./styles/App.scss";
 
 const App = () => {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/builder" element={<Builder/>} />
+        <Route path="/builder" element={<Builder />} />
       </Routes>
     </Router>
   );
