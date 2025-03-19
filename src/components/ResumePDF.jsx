@@ -3,7 +3,6 @@
 import { useEffect, useRef} from "react";
 import ResumePreview from "./ResumePreview";
 import { useSelector } from "react-redux";
-import { CgSpinner } from "react-icons/cg";
 import { usePDF } from "@react-pdf/renderer";
 import { Document, Page, pdfjs } from "react-pdf";
 import { FaDownload, FaEye } from "react-icons/fa6";
