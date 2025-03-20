@@ -43,16 +43,9 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
         let newValue = value;
     
-        // Ensure first bullet point is automatically added
         if (e.target.tagName === "TEXTAREA") {
-            if (!newValue.startsWith("• ")) {
-                newValue = "• " + newValue;
-            }
-    
-            // When Enter is pressed, add a new bullet point on a new line
             if (e.nativeEvent.inputType === "insertLineBreak") {
                 newValue = value + "• ";
             }
@@ -68,6 +61,27 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
             current[keys[keys.length - 1]] = newValue;
             return temp;
         });
+    };
+    
+    const handleKeyDown = (e) => {
+        if (e.target.tagName === "TEXTAREA" && e.key === "Backspace") {
+            const { value, selectionStart } = e.target;
+            if (value[selectionStart - 1] === "•" && value[selectionStart - 2] === "\n") {
+                e.preventDefault();
+                const newValue = value.slice(0, selectionStart - 2) + value.slice(selectionStart);
+                e.target.value = newValue;
+                setLocalFormData(prev => {
+                    const keys = e.target.name.split('.');
+                    let temp = { ...prev };
+                    let current = temp;
+                    for (let i = 0; i < keys.length - 1; i++) {
+                        current = current[keys[i]];
+                    }
+                    current[keys[keys.length - 1]] = newValue;
+                    return temp;
+                });
+            }
+        }
     };
     
     const handleSave = () => {
@@ -136,7 +150,7 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
                 return (
                     <div className="input-group g1">
                         <label>Summary</label>
-                        <textarea name="summary" value={localFormData.summary} onChange={handleChange}></textarea>
+                        <textarea name="summary" value={localFormData.summary} onChange={handleChange} onKeyDown={handleKeyDown}></textarea>
                     </div>
                 );
             case "Education":
@@ -224,7 +238,7 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
                                             </div>
                                             <div className="input-group">
                                                 <label>Description</label>
-                                                <textarea name={`experience.${index}.description`} value={exp.description || ""} onChange={handleChange}></textarea>
+                                                <textarea name={`experience.${index}.description`} value={exp.description || "" } onChange={handleChange} onKeyDown={handleKeyDown}></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -256,7 +270,7 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
                                         <div className="form-row">
                                             <div className="input-group">
                                                 <label>Description</label>
-                                                <textarea name={`projects.${index}.description`} value={proj.description || ""} onChange={handleChange}></textarea>
+                                                <textarea name={`projects.${index}.description`} value={proj.description || ""} onChange={handleChange}onKeyDown={handleKeyDown}></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -269,7 +283,7 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
                 return (
                     <div className="input-group g1">
                         <label>Skills</label>
-                        <textarea name="skills" value={localFormData.skills} onChange={handleChange}></textarea>
+                        <textarea name="skills" value={localFormData.skills} onChange={handleChange} onKeyDown={handleKeyDown}></textarea>
                     </div>
                 );
             case "Certifications":

@@ -31,7 +31,7 @@ const ResumeBuilder = () => {
 
     const [activeTab, setActiveTab] = useState(() => sessionStorage.getItem("activeTab") || "Contact");
     const [menuOpen, setMenuOpen] = useState(false);
-    const [selectedTemplate, setSelectedTemplate] = useState("Classic");
+    const [selectedTemplate, setSelectedTemplate] = useState(() => localStorage.getItem("selectedTemplate") || "Classic");
     const menuRef = useRef(null);
 
     useEffect(() => {
@@ -41,6 +41,10 @@ const ResumeBuilder = () => {
     useEffect(() => {
         localStorage.setItem("formData", JSON.stringify(formData));
     }, [formData]);
+
+    useEffect(() => {
+        localStorage.setItem("selectedTemplate", selectedTemplate);
+    }, [selectedTemplate]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -64,11 +68,10 @@ const ResumeBuilder = () => {
         <div className="resume-builder">
             <NavBar hideToggle={true} />
             <div className="main-container">
-                <ResumePreview formData={formData} template={selectedTemplate} />
+                <ResumePreview key={selectedTemplate} formData={formData} template={selectedTemplate} />
                 <FormInput activeTab={activeTab} setActiveTab={setActiveTab} formData={formData} setFormData={setFormData} />
             </div>
 
-            {/* Floating Action Button */}
             <div className="fab-container" ref={menuRef}>
                 <button className="fab" onClick={() => setMenuOpen(!menuOpen)}>
                     <FaPlus />

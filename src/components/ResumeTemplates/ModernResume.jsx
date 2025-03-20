@@ -71,7 +71,6 @@ const ModernResume = ({ formData }) => {
     .summary p,
     .education-item span,
     .experience-item span,
-    .experience-item p,
     .project-item a,
     .skills p,
     .certifications-item span {
@@ -120,7 +119,8 @@ const ModernResume = ({ formData }) => {
         justify-content: space-between;
     }
 
-    .project-item p {
+    .project-item p , 
+    .experience-item p{
         font-size: 0.55rem;
         color: #666;
         line-height: 1.4;
@@ -237,19 +237,19 @@ const ModernResume = ({ formData }) => {
         formData?.linkedin ||
         formData?.github ||
         formData?.portfolio) && (
-        <section className="header">
-          {formData.fullName && <h1 className="name">{formData.fullName}</h1>}
-          <div className="contact">
-            {formData.phone && <span>{formData.phone}</span>}
-            {formData.email && (
-              <a href={`mailto:${formData.email}`}>{formData.email}</a>
-            )}
-            {formData.linkedin && <a href={formData.linkedin}>LinkedIn</a>}
-            {formData.github && <a href={formData.github}>GitHub</a>}
-            {formData.portfolio && <a href={formData.portfolio}>Portfolio</a>}
-          </div>
-        </section>
-      )}
+          <section className="header">
+            {formData.fullName && <h1 className="name">{formData.fullName}</h1>}
+            <div className="contact">
+              {formData.phone && <span>{formData.phone}</span>}
+              {formData.email && (
+                <a href={`mailto:${formData.email}`}>{formData.email}</a>
+              )}
+              {formData.linkedin && <a href={formData.linkedin}>LinkedIn</a>}
+              {formData.github && <a href={formData.github}>GitHub</a>}
+              {formData.portfolio && <a href={formData.portfolio}>Portfolio</a>}
+            </div>
+          </section>
+        )}
 
       {/* Summary Section */}
       {formData?.summary && formData.summary.trim() && (
@@ -265,34 +265,36 @@ const ModernResume = ({ formData }) => {
 
       {/* Education */}
       {formData?.education?.length > 0 &&
-  formData.education.some((edu) => edu.degree || edu.school) && (
-    <section className="education">
-      <h2>Education</h2>
-      {formData.education.map(
-        (edu, index) =>
-          (edu.degree || edu.school) && (
-            <div key={index} className="education-item">
-              {/* Degree, School & Location  */}
-              <h3>
-                {edu.degree}
-                {edu.school && ` at ${edu.school}`}
-                {edu.location && `, ${edu.location}`}
-              </h3>
+        formData.education.some((edu) => edu.degree || edu.school) && (
+          <section className="education">
+            <h2>Education</h2>
+            {formData.education.map(
+              (edu, index) =>
+                (edu.degree || edu.school) && (
+                  <div key={index} className="education-item">
+                    {/* Degree, School & Location  */}
+                    <h3>
+                      {edu.degree}
+                      {edu.school && ` at ${edu.school}`}
+                      {edu.location && `, ${edu.location}`}
+                    </h3>
 
-              {/* GPA & Start-End Date  */}
-              <div className="education-details">
-                {(edu.startDate || edu.endDate) && (
-                  <span className="date">
-                    ({edu.startDate || "N/A"} - {edu.endDate || "Present"})
-                  </span>
-                )}
-                {edu.gpa && <span> GPA: {edu.gpa}</span>}
-              </div>
-            </div>
-          )
-      )}
-    </section>
-  )}
+                    {/* GPA & Start-End Date  */}
+                    <div className="education-details">
+                      {(edu.startDate || edu.endDate) && (
+                        <span className="date">
+                          ({edu.startDate ? edu.startDate : "N/A"} - {edu.endDate ? edu.endDate : "Present"})
+                        </span>
+                      )}
+                      {edu.gpa && <span> GPA: {edu.gpa}</span>}
+                    </div>
+
+
+                  </div>
+                )
+            )}
+          </section>
+        )}
 
       {/* Experience Section */}
       {formData?.experience?.length > 0 &&
@@ -309,11 +311,12 @@ const ModernResume = ({ formData }) => {
                       </h3>
                     )}
                     {exp.location && <span> Location: {exp.location}</span>}
-                    {(exp.startDate || exp.endDate) && (
+                    {(exp.startDate || exp.endDate !== undefined) && (
                       <span className="date">
-                        &nbsp;({exp.startDate} - {exp.endDate})
+                        &nbsp;({exp.startDate ? exp.startDate : "N/A"} - {exp.endDate && exp.endDate.trim() !== "" ? exp.endDate : "Present"})
                       </span>
                     )}
+
                     <br />
                     {exp.description && (
                       <p
@@ -372,78 +375,39 @@ const ModernResume = ({ formData }) => {
 
       {/* Certifications */}
       {formData?.certifications?.length > 0 &&
-        formData.certifications.some((cert) => cert.name || cert.issuer) && (
-          <section className="certifications">
-            <h2>Certifications</h2>
-            {formData.certifications.map(
-              (cert, index) =>
-                (cert.name || cert.issuer) && (
-                  <div key={index} className="certifications-item">
-                    {/* Certification Name & Issuer */}
-                    <p className="cert-title">
-                      {cert.name} {cert.issuer && `by ${cert.issuer}`}
-                    </p>
+  formData.certifications.some((cert) => cert.name || cert.issuer) && (
+    <section className="certifications">
+      <h2>Certifications</h2>
+      {formData.certifications.map(
+        (cert, index) =>
+          (cert.name || cert.issuer) && (
+            <div key={index} className="certifications-item">
+              <p className="cert-title">
+                {cert.name} {cert.issuer && `by ${cert.issuer}`}
+              </p>
 
-                    {formData?.certifications?.length > 0 &&
-                      formData.certifications.some(
-                        (cert) => cert.name || cert.issuer
-                      ) && (
-                        <section className="certifications">
-                          <h2>Certifications</h2>
-                          {formData.certifications.map(
-                            (cert, index) =>
-                              (cert.name || cert.issuer) && (
-                                <div
-                                  key={index}
-                                  className="certifications-item"
-                                >
-                                  {/* Certification Name & Issuer */}
-                                  <p className="cert-title">
-                                    {cert.name}{" "}
-                                    {cert.issuer && `by ${cert.issuer}`}
-                                  </p>
+              {(cert.issueDate || cert.expirationDate) && (
+                <p className="cert-date">
+                  <span>Issue: {cert.issueDate || "N/A"}</span>
+                  <span>Expire: {cert.expirationDate || "No Expiry"}</span>
+                </p>
+              )}
 
-                                  {/* Issue Date & Expire Date in Same Row */}
-                                  {(cert.issueDate || cert.expirationDate) && (
-                                    <p className="cert-date">
-                                      <span>
-                                        Issue: {cert.issueDate || "N/A"}
-                                      </span>
-                                      <span>
-                                        Expire:{" "}
-                                        {cert.expirationDate || "No Expiry"}
-                                      </span>
-                                    </p>
-                                  )}
-
-                                  {/* Credential ID & URL in Same Row */}
-                                  {(cert.credentialID ||
-                                    cert.credentialURL) && (
-                                    <div className="credential-details">
-                                      {cert.credentialID && (
-                                        <span>ID - {cert.credentialID}</span>
-                                      )}
-                                      {cert.credentialURL && (
-                                        <a
-                                          href={cert.credentialURL}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                        >
-                                          ({cert.credentialURL})
-                                        </a>
-                                      )}
-                                    </div>
-                                  )}
-                                </div>
-                              )
-                          )}
-                        </section>
-                      )}
-                  </div>
-                )
-            )}
-          </section>
-        )}
+              {(cert.credentialID || cert.credentialURL) && (
+                <div className="credential-details">
+                  {cert.credentialID && <span>ID - {cert.credentialID}</span>}
+                  {cert.credentialURL && (
+                    <a href={cert.credentialURL} target="_blank" rel="noopener noreferrer">
+                      ({cert.credentialURL})
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+          )
+      )}
+    </section>
+  )}
     </div>
   );
 };

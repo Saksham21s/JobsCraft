@@ -1,35 +1,26 @@
-import React, { useRef, useState, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { FaDownload, FaTimes, FaEye } from "react-icons/fa";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import ClassicResume from "./ResumeTemplates/ClassicResume";
-import ModernResume from "./ResumeTemplates/ModernResume";
-import CreativeResume from "./ResumeTemplates/CreativeResume";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ClassicResume from "../components/ResumeTemplates/ClassicResume";
+import ModernResume from "../components/ResumeTemplates/ModernResume";
+import CreativeResume from "../components/ResumeTemplates/CreativeResume";
+import ClassicResumePDF from "../components/ResumeTemplates/ClassicResumePDF";
+import ModernResumePDF from "../components/ResumeTemplates/ModernResumePDF";
+import CreativeResumePDF from "../components/ResumeTemplates/CreativeResumePDF";
 
 const templates = {
-    Classic: ClassicResume,
-    Modern: ModernResume,
-    Creative: CreativeResume,
+    Classic: { preview: ClassicResume, pdf: ClassicResumePDF },
+    Modern: { preview: ModernResume, pdf: ModernResumePDF },
+    Creative: { preview: CreativeResume, pdf: CreativeResumePDF },
 };
 
 const ResumePreview = ({ formData, template }) => {
-    const resumeRef = useRef();
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-    const SelectedTemplate = templates[template] || ClassicResume;
+    const SelectedTemplate = templates[template]?.preview || ClassicResume;
+    const SelectedPDFTemplate = templates[template]?.pdf || ClassicResumePDF;
 
     const handlePreview = () => setIsPopupOpen(true);
     const closePopup = () => setIsPopupOpen(false);
-
-    const handleDownload = () => {
-        html2canvas(resumeRef.current).then((canvas) => {
-            const imgData = canvas.toDataURL("image/png");
-            const pdf = new jsPDF("p", "mm", "a4");
-            const width = pdf.internal.pageSize.getWidth();
-            const height = (canvas.height * width) / canvas.width;
-            pdf.addImage(imgData, "PNG", 0, 0, width, height);
-            pdf.save(`${formData.fullName || "Resume"}_Resume.pdf`);
-        });
-    };
 
     return (
         <div className="resume-preview">
@@ -39,7 +30,7 @@ const ResumePreview = ({ formData, template }) => {
                         <button className="close-btn" onClick={closePopup}>
                             <FaTimes />
                         </button>
-                        <div className="resume-popup-content" ref={resumeRef}>
+                        <div className="resume-popup-content">
                             <Suspense fallback={<div>Loading...</div>}>
                                 <SelectedTemplate formData={formData} />
                             </Suspense>
@@ -47,20 +38,30 @@ const ResumePreview = ({ formData, template }) => {
                     </div>
                 </div>
             )}
-            <div className="resume-container" ref={resumeRef}>
+
+            <div className="resume-container">
                 <Suspense fallback={<div>Loading...</div>}>
                     <SelectedTemplate formData={formData} />
                 </Suspense>
             </div>
+
             <div className="resume-buttons">
                 <button className="action-btn" onClick={handlePreview}>
                     <span>Preview</span>
                     <FaEye className="icon" />
                 </button>
-                <button className="action-btn" onClick={handleDownload}>
-                    <span>Download</span>
-                    <FaDownload className="icon" />
-                </button>
+
+                <PDFDownloadLink
+                    document={<SelectedPDFTemplate formData={formData} />}
+                    fileName={`${formData.fullName || "Resume"}_Resume.pdf`}
+                >
+                    {({ loading }) => (
+                        <button className="action-btn">
+                            <span>{loading ? "Generating..." : "Download PDF"}</span>
+                            <FaDownload className="icon" />
+                        </button>
+                    )}
+                </PDFDownloadLink>
             </div>
         </div>
     );

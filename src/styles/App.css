@@ -237,7 +237,6 @@ body.dark .logo-text {
   transition: all 0.3s ease-in-out;
 }
 .landing-title:hover {
-  transform: translateY(-3px);
   text-shadow: 0px 5px 25px rgba(0, 0, 0, 0.2);
 }
 body.dark .landing-title {
@@ -294,7 +293,7 @@ body.dark .landing-description {
   padding: 14px 28px;
 }
 .create-resume-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
   box-shadow: 0px 15px 30px rgba(0, 123, 255, 0.4);
 }
 body.dark .create-resume-btn {
@@ -323,7 +322,7 @@ body.dark .create-resume-btn {
   align-items: center;
 }
 .view-source-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
   box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.5);
 }
 body.dark .view-source-btn {
@@ -483,7 +482,7 @@ body.dark .view-source-btn {
 
 .main-container {
   display: flex;
-  gap: 3rem;
+  gap: 5rem;
   align-items: flex-start;
 }
 @media (max-width: 768px) {
@@ -506,6 +505,9 @@ body.dark .view-source-btn {
   transition: background 0.3s ease-in-out;
   position: sticky;
   top: 20px;
+}
+body.dark .resume-preview {
+  background: #1e1e1e;
 }
 @media (max-width: 768px) {
   .resume-preview {
@@ -543,6 +545,9 @@ body.dark .view-source-btn {
   border-radius: 10px;
   transition: background 0.3s ease-in-out;
 }
+.resume-buttons a {
+  text-decoration: none;
+}
 @media (max-width: 768px) {
   .resume-buttons {
     flex-direction: row;
@@ -566,6 +571,7 @@ body.dark .view-source-btn {
   gap: 8px;
   transition: all 0.3s ease-in-out;
   box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.3);
+  flex: 1;
 }
 .action-btn:hover {
   background: #0056b3;
@@ -575,21 +581,35 @@ body.dark .view-source-btn {
 .action-btn:active {
   transform: scale(0.98);
 }
-@media (max-width: 768px) {
-  .action-btn {
-    width: 90%;
-    font-size: 14px;
-    padding: 0.6rem;
-  }
+
+.resume-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
+@media (max-width: 768px) {
+  .resume-buttons {
+    flex-direction: row;
+    width: 100%;
+  }
+  .action-btn {
+    width: 100%;
+    font-size: 14px;
+  }
+}
 /* Form Section */
 .form-section {
   flex: 2;
   background: #d6e5ff;
   border-radius: 8px;
-  padding: 1.5rem;
   margin: 0 auto;
+}
+body.dark .form-section {
+  background: #1e1e1e;
 }
 @media (max-width: 768px) {
   .form-section {
