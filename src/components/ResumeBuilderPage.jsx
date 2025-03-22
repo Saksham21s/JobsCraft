@@ -81,7 +81,11 @@ const ResumeBuilder = () => {
                 {menuOpen && (
                     <div className="fab-menu">
                         {templates.map((template) => (
-                            <button key={template.id} className="fab-option" onClick={() => setSelectedTemplate(template.name)}>
+                            <button
+                                key={template.id}
+                                className={`fab-option ${selectedTemplate === template.name ? "active-fab-option" : ""}`}
+                                onClick={() => setSelectedTemplate(template.name)}
+                            >
                                 <img src={template.preview} alt={template.name} className="template-preview" />
                                 {template.name}
                             </button>
@@ -89,9 +93,9 @@ const ResumeBuilder = () => {
                     </div>
                 )}
             </div>
-            
-            <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} 
-                newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss 
+
+            <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false}
+                newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss
                 draggable pauseOnHover theme="light" />
         </div>
     );

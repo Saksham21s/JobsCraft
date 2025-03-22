@@ -450,22 +450,22 @@ const ModernResume = ({ formData }) => {
                                         </p>
 
                                         {(cert.credentialID || cert.credentialURL || cert.issueDate || cert.expirationDate) && (
-                                           <div className="row credential-row">
-                                           <div className="credential-details">
-                                               {cert.credentialID && <span>{cert.credentialID}</span>}
-                                               {cert.credentialURL && (
-                                                   <a href={cert.credentialURL} target="_blank" rel="noopener noreferrer">
-                                                       ({cert.credentialURL})
-                                                   </a>
-                                               )}
-                                           </div>
-                                   
-                                           {/* Issue & Expiry Date */}
-                                           <div className="cert-date">
-                                               <span>Issue: {cert.issueDate || "N/A"}</span>
-                                               <span>Expire: {cert.expirationDate || "No Expiry"}</span>
-                                           </div>
-                                       </div>
+                                            <div className="row credential-row">
+                                                <div className="credential-details">
+                                                    {cert.credentialID && <span>{cert.credentialID}</span>}
+                                                    <span>(  &nbsp;{cert.credentialURL && (
+                                                        <a href={cert.credentialURL} target="_blank" rel="noopener noreferrer">
+                                                            Verify Certificate
+                                                        </a>
+                                                    )} &nbsp; )</span>
+                                                </div>
+
+                                                {/* Issue & Expiry Date */}
+                                                <div className="cert-date">
+                                                    <span>Issue: {cert.issueDate || "N/A"}</span>
+                                                    <span>Expire: {cert.expirationDate || "No Expiry"}</span>
+                                                </div>
+                                            </div>
                                         )}
                                     </div>
                                 )

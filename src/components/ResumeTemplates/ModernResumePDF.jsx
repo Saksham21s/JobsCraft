@@ -73,6 +73,13 @@ const styles = StyleSheet.create({
     lineHeight: 1.4,
     marginLeft: 12,
   },
+  skillstext: {
+    fontSize: 12,
+    color: "#222",
+    lineHeight: 1.4,
+    marginLeft: 12,
+    marginBottom: 5,
+  },
   entry: {
     marginBottom: 5,
   },
@@ -146,47 +153,47 @@ const ModernResumePDF = ({ formData }) => (
         formData?.linkedin ||
         formData?.github ||
         formData?.portfolio) && (
-        <View style={styles.header}>
-          {formData.fullName && (
-            <Text style={styles.name}>{formData.fullName}</Text>
-          )}
-          <View style={styles.contact}>
-            {formData.phone && (
-              <Text style={styles.contactItem}>{formData.phone}</Text>
+          <View style={styles.header}>
+            {formData.fullName && (
+              <Text style={styles.name}>{formData.fullName}</Text>
             )}
-            {formData.email && (
-              <>
-                <Text style={styles.separator}>|</Text>
-                <Text style={styles.contactItem}>{formData.email}</Text>
-              </>
-            )}
-            {formData.linkedin && (
-              <>
-                <Text style={styles.separator}>|</Text>
-                <Link src={formData.linkedin} style={styles.headerLink}>
-                  {"LinkedIn"}
-                </Link>
-              </>
-            )}
-            {formData.github && (
-              <>
-                <Text style={styles.separator}>|</Text>
-                <Link src={formData.github} style={styles.headerLink}>
-                  {"GitHub"}
-                </Link>
-              </>
-            )}
-            {formData.portfolio && (
-              <>
-                <Text style={styles.separator}>|</Text>
-                <Link src={formData.portfolio} style={styles.headerLink}>
-                  {"Portfolio"}
-                </Link>
-              </>
-            )}
+            <View style={styles.contact}>
+              {formData.phone && (
+                <Text style={styles.contactItem}>{formData.phone}</Text>
+              )}
+              {formData.email && (
+                <>
+                  <Text style={styles.separator}>|</Text>
+                  <Text style={styles.contactItem}>{formData.email}</Text>
+                </>
+              )}
+              {formData.linkedin && (
+                <>
+                  <Text style={styles.separator}>|</Text>
+                  <Link src={formData.linkedin} style={styles.headerLink}>
+                    {"LinkedIn"}
+                  </Link>
+                </>
+              )}
+              {formData.github && (
+                <>
+                  <Text style={styles.separator}>|</Text>
+                  <Link src={formData.github} style={styles.headerLink}>
+                    {"GitHub"}
+                  </Link>
+                </>
+              )}
+              {formData.portfolio && (
+                <>
+                  <Text style={styles.separator}>|</Text>
+                  <Link src={formData.portfolio} style={styles.headerLink}>
+                    {"Portfolio"}
+                  </Link>
+                </>
+              )}
+            </View>
           </View>
-        </View>
-      )}
+        )}
 
       {/* Summary Section */}
       {formData?.summary && (
@@ -266,34 +273,34 @@ const ModernResumePDF = ({ formData }) => (
       {formData?.skills && (
         <View style={styles.section}>
           <Text style={styles.title}>SKILLS</Text>
-          <Text style={styles.text}>{formData.skills}</Text>
+          <Text style={styles.skillstext}>{formData.skills}</Text>
         </View>
       )}
 
       {/* Certifications Section */}
       {formData?.certifications?.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.title}>CERTIFICATION</Text>
+          <Text style={styles.title}>CERTIFICATIONS</Text>
           {formData.certifications.map((cert, index) => (
             <View key={index} style={styles.entry}>
-              <Text style={styles.entryTitle}>
+              <Text style={styles.certTitle}>
                 {cert.name} by {cert.issuer}
               </Text>
               <View style={styles.row}>
-                <Text style={styles.gpa}>
-                  Credential ID - {cert.credentialID} (
-                  {cert.credentialURL && (
-                    <Link src={cert.credentialURL} style={styles.link}>
-                      {" "}
-                      {cert.credentialURL}{" "}
+                <View style={styles.credentialDetails}>
+                  <Text style={styles.credentialText}>
+                    ID: {cert.credentialID}
+                  </Text>
+                 <Text>( {cert.credentialURL && (
+                   <Link src={cert.credentialURL} style={styles.link}>
+                      Verify Certificate
                     </Link>
-                  )}
-                  )
-                </Text>
-                <Text style={styles.date}>
-                  Issued: {cert.issueDate} | Expiry:{" "}
-                  {cert.expirationDate || "No Expiry"}
-                </Text>
+                  )} )</Text> 
+                </View>
+                <View style={styles.certDate}>
+                  <Text>Issued: {cert.issueDate}</Text>
+                  {cert.expirationDate && <Text>Expires: {cert.expirationDate}</Text>}
+                </View>
               </View>
             </View>
           ))}

@@ -375,39 +375,43 @@ const ModernResume = ({ formData }) => {
 
       {/* Certifications */}
       {formData?.certifications?.length > 0 &&
-  formData.certifications.some((cert) => cert.name || cert.issuer) && (
-    <section className="certifications">
-      <h2>Certifications</h2>
-      {formData.certifications.map(
-        (cert, index) =>
-          (cert.name || cert.issuer) && (
-            <div key={index} className="certifications-item">
-              <p className="cert-title">
-                {cert.name} {cert.issuer && `by ${cert.issuer}`}
-              </p>
+        formData.certifications.some((cert) => cert.name || cert.issuer) && (
+          <section className="certifications">
+            <h2>Certifications</h2>
+            {formData.certifications.map(
+              (cert, index) =>
+                (cert.name || cert.issuer) && (
+                  <div key={index} className="certifications-item">
+                    <p className="cert-title">
+                      {cert.name} {cert.issuer && `by ${cert.issuer}`}
+                    </p>
 
-              {(cert.issueDate || cert.expirationDate) && (
-                <p className="cert-date">
-                  <span>Issue: {cert.issueDate || "N/A"}</span>
-                  <span>Expire: {cert.expirationDate || "No Expiry"}</span>
-                </p>
-              )}
+                    {(cert.issueDate || cert.expirationDate) && (
+                      <p className="cert-date">
+                        <span>Issue: {cert.issueDate || "N/A"}</span>
+                        <span>Expire: {cert.expirationDate || "No Expiry"}</span>
+                      </p>
+                    )}
 
-              {(cert.credentialID || cert.credentialURL) && (
-                <div className="credential-details">
-                  {cert.credentialID && <span>ID - {cert.credentialID}</span>}
-                  {cert.credentialURL && (
-                    <a href={cert.credentialURL} target="_blank" rel="noopener noreferrer">
-                      ({cert.credentialURL})
-                    </a>
-                  )}
-                </div>
-              )}
-            </div>
-          )
-      )}
-    </section>
-  )}
+                    {(cert.credentialID || cert.credentialURL) && (
+                      <div className="credential-details">
+                        {cert.credentialID && <span>ID - {cert.credentialID}</span>}
+                        {cert.credentialURL && (
+                          <span>
+                            ( &nbsp;
+                            <a href={cert.credentialURL} target="_blank" rel="noopener noreferrer">
+                              Verify Certificate
+                            </a>
+                             &nbsp;)
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )
+            )}
+          </section>
+        )}
     </div>
   );
 };

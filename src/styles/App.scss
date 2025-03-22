@@ -1065,6 +1065,14 @@ body {
   transition: background 0.3s ease;
 }
 
+.active-fab-option {
+  background-color: #dbe2ef;
+  color: #222; 
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+
 .fab-option:hover {
   background: #dbe2ef;
 }
