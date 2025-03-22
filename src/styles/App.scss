@@ -894,8 +894,7 @@ body {
         }
 
         button {
-          background-color: #ff4d4d;
-          color: white;
+          color: rgb(0, 0, 0);
           border: none;
           padding: 0.4rem 0.8rem;
           border-radius: 4px;
@@ -904,7 +903,7 @@ body {
           transition: background 0.3s;
 
           &:hover {
-            background-color: #e60000;
+            background-color: #bcbcbc;
           }
         }
       }

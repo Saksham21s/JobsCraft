@@ -791,8 +791,7 @@ body.dark .form-section {
   color: #444;
 }
 .form-section .form-container .collapsible-section .section-header button {
-  background-color: #ff4d4d;
-  color: white;
+  color: rgb(0, 0, 0);
   border: none;
   padding: 0.4rem 0.8rem;
   border-radius: 4px;
@@ -801,7 +800,7 @@ body.dark .form-section {
   transition: background 0.3s;
 }
 .form-section .form-container .collapsible-section .section-header button:hover {
-  background-color: #e60000;
+  background-color: #bcbcbc;
 }
 .form-section .form-container .collapsible-section .section-content {
   padding: 0.8rem;

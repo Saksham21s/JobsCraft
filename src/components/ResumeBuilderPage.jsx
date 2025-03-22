@@ -7,6 +7,8 @@ import { FaPlus } from "react-icons/fa";
 import classic from "../assets/classic.avif";
 import modern from "../assets/Resume.png";
 import creative from "../assets/creative-resume.png";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ResumeBuilder = () => {
     const [formData, setFormData] = useState(() => {
@@ -87,6 +89,10 @@ const ResumeBuilder = () => {
                     </div>
                 )}
             </div>
+            
+            <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} 
+                newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss 
+                draggable pauseOnHover theme="light" />
         </div>
     );
 };

@@ -3,135 +3,153 @@ import { Page, Text, View, Document, StyleSheet, Link } from "@react-pdf/rendere
 
 const styles = StyleSheet.create({
     page: {
-        padding: 20,
+        padding: 30,
         fontFamily: "Helvetica",
-        fontSize: 14,
+        fontSize: 12,
         color: "#000",
     },
     section: {
-        marginBottom: 8,
+        marginBottom: 10,
     },
     row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop:3,
+        marginTop: 3,
     },
     header: {
         textAlign: "center",
-        marginBottom: 10,
+        marginBottom: 15,
+        backgroundColor: "#f0f0f0",
+        padding: 10,
+        borderRadius: 3,
     },
     name: {
-        fontSize: 20,
-        fontWeight: 600,
+        fontSize: 18,
+        fontWeight: 700,
         fontFamily: 'Times-Bold',
-        color: "#000",
+        color: "#111",
         marginBottom: 5,
+        letterSpacing: 1,
     },
     headerLink: {
         fontSize: 10,
-        color: "#666",
-        textDecoration: "underline",
+        color: "#111",
+        textDecoration: "none",
         marginRight: 8,
         marginLeft: 8,
-    },
-    headerLinkHover: {
-        color: "#0073e6",
     },
     contact: {
         flexDirection: "row",
         justifyContent: "center",
         fontSize: 10,
-        color: "#666",
+        color: "#111",
         flexWrap: "wrap",
     },
     contactItem: {
         marginRight: 8,
         marginLeft: 8,
     },
-    contactItemLast: {
-        marginRight: 0,
+    separator: {
+        marginLeft: 4,
+        marginRight: 4,
     },
     title: {
         fontSize: 14,
         fontWeight: 600,
-        fontFamily: 'Times-Bold',
-        borderBottom: "2px solid #969696",
-        paddingBottom: 3,
+        fontFamily: 'Helvetica-Bold',
+        backgroundColor: "#f0f0f0",
+        color: "#111",
+        textAlign: "center",
         marginBottom: 8,
+        padding: 5,
+        borderRadius: 3,
     },
     text: {
-        fontSize: 12,
+        fontSize: 10,
         color: "#666",
         lineHeight: 1.4,
-        marginLeft: 12,
+        fontWeight: 500,
+        marginLeft: 5,
     },
     entry: {
-        marginBottom: 5,
+        marginBottom: 8,
     },
     entryTitle: {
-        fontSize: 14,
-        fontWeight: 500,
+        fontSize: 12,
+        fontWeight: 700,
         color: "#222",
         marginBottom: 4,
     },
     date: {
-        fontSize: 11,
+        fontSize: 10,
         color: "#666",
-        fontFamily: 'Times-Italic',
         textAlign: "right",
         marginBottom: 4,
     },
-    gpa:{
-        fontSize: 11,
+    gpa: {
+        fontSize: 10,
         color: "#666",
-        textAlign: "right",
+        textAlign: "left",
         marginBottom: 4, 
     },
     link: {
-        fontSize: 12,
+        fontSize: 10,
         color: "#3498db",
         textDecoration: "none",
-    },
-    linkHover: {
-        textDecoration: "underline",
-        color: "#0073e6",
     },
     projectHeader: {
         flexDirection: "row",
         justifyContent: "space-between",
+        marginBottom: 5,
     },
     certItem: {
-        marginBottom: 7,
+        marginBottom: 8,
     },
     certTitle: {
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: "bold",
         color: "#222",
+        marginBottom: 5,
     },
     certDate: {
         fontSize: 10,
         fontWeight: "600",
         color: "#666",
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "flex-end",
+        gap: 10,
     },
     credentialDetails: {
         flexDirection: "row",
         alignItems: "center",
         gap: 10,
-        fontSize: 12,
+        fontSize: 10,
         color: "#666",
     },
     credentialText: {
-        fontSize: 12,
-        fontWeight: "500",
+        fontSize: 10,
+        fontWeight: "600",
+    },
+    skillsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 8,
+        marginLeft: 5,
+    },
+    skillItem: {
+        backgroundColor: "#e0e0e0",
+        padding: "4 8",
+        borderRadius: 3,
+        fontSize: 9,
+        color: "#111",
+        marginBottom: 5,
     },
 });
 
-const ModernResumePDF = ({ formData }) => (
+const CreativeResumePDF = ({ formData }) => (
     <Document>
-        <Page size={[600, 900]} style={styles.page}>
+        <Page size="A4" style={styles.page}>
             {/* Header Section */}
             {(formData?.fullName || formData?.phone || formData?.email || formData?.linkedin || formData?.github || formData?.portfolio) && (
                 <View style={styles.header}>
@@ -147,28 +165,44 @@ const ModernResumePDF = ({ formData }) => (
                         {formData.linkedin && (
                             <>
                                 <Text style={styles.separator}>|</Text>
-                                <Link src={formData.linkedin} style={styles.headerLink}>{"LinkedIn"}</Link>
+                                <Link src={formData.linkedin} style={styles.headerLink}>LinkedIn</Link>
                             </>
                         )}
                         {formData.github && (
                             <>
                                 <Text style={styles.separator}>|</Text>
-                                <Link src={formData.github} style={styles.headerLink}>{"GitHub"}</Link>
+                                <Link src={formData.github} style={styles.headerLink}>GitHub</Link>
                             </>
                         )}
                         {formData.portfolio && (
                             <>
                                 <Text style={styles.separator}>|</Text>
-                                <Link src={formData.portfolio} style={styles.headerLink}>{"Portfolio"}</Link>
+                                <Link src={formData.portfolio} style={styles.headerLink}>Portfolio</Link>
                             </>
                         )}
                     </View>
-
                 </View>
             )}
 
             {/* Summary Section */}
-            {formData?.summary && <View style={styles.section}><Text style={styles.title}>SUMMARY</Text><Text style={styles.text}>{formData.summary}</Text></View>}
+            {formData?.summary && (
+                <View style={styles.section}>
+                    <Text style={styles.title}>SUMMARY</Text>
+                    <Text style={styles.text}>{formData.summary}</Text>
+                </View>
+            )}
+
+            {/* Skills Section */}
+            {formData?.skills && (
+                <View style={styles.section}>
+                    <Text style={styles.title}>SKILLS</Text>
+                    <View style={styles.skillsContainer}>
+                        {formData.skills.split(',').map((skill, index) => (
+                            <Text key={index} style={styles.skillItem}>{skill.trim()}</Text>
+                        ))}
+                    </View>
+                </View>
+            )}
 
             {/* Education Section */}
             {formData?.education?.length > 0 && (
@@ -178,7 +212,7 @@ const ModernResumePDF = ({ formData }) => (
                         <View key={index} style={styles.entry}>
                             <Text style={styles.entryTitle}>{edu.degree} at {edu.school}, {edu.location}</Text>
                             <View style={styles.row}>
-                                <Text style={styles.gpa}>GPA - {edu.gpa}</Text>
+                                <Text style={styles.gpa}>GPA: {edu.gpa}</Text>
                                 <Text style={styles.date}>{edu.startDate} - {edu.endDate || "Present"}</Text>
                             </View>
                         </View>
@@ -189,12 +223,12 @@ const ModernResumePDF = ({ formData }) => (
             {/* Experience Section */}
             {formData?.experience?.length > 0 && (
                 <View style={styles.section}>
-                    <Text style={styles.title}>EXPEREINCE</Text>
+                    <Text style={styles.title}>EXPERIENCE</Text>
                     {formData.experience.map((exp, index) => (
                         <View key={index} style={styles.entry}>
                             <Text style={styles.entryTitle}>{exp.title} at {exp.company}</Text>
                             <View style={styles.row}>
-                                <Text style={styles.gpa}>Location - {exp.location}</Text>
+                                <Text style={styles.gpa}>Location: {exp.location}</Text>
                                 <Text style={styles.date}>{exp.startDate} - {exp.endDate || "Present"}</Text>
                             </View>
                             <Text style={styles.text}>{exp.description}</Text>
@@ -209,9 +243,13 @@ const ModernResumePDF = ({ formData }) => (
                     <Text style={styles.title}>PROJECTS</Text>
                     {formData.projects.map((proj, index) => (
                         <View key={index} style={styles.entry}>
-                            <View style={styles.row}>
+                            <View style={styles.projectHeader}>
                                 <Text style={styles.entryTitle}>{proj.name}</Text>
-                               <Text style={styles.gpa}> Link - {proj.link &&  <Link src={proj.link} style={styles.link}>  {proj.link}</Link>}</Text> 
+                                {proj.link && (
+                                    <Link src={proj.link} style={styles.link}>
+                                        View Project
+                                    </Link>
+                                )}
                             </View>
                             <Text style={styles.text}>{proj.description}</Text>
                         </View>
@@ -219,26 +257,28 @@ const ModernResumePDF = ({ formData }) => (
                 </View>
             )}
 
-            {/* Skills Section */}
-            {formData?.skills && <View style={styles.section}><Text style={styles.title}>SKILLS</Text><Text style={styles.text}>{formData.skills}</Text></View>}
-
             {/* Certifications Section */}
             {formData?.certifications?.length > 0 && (
                 <View style={styles.section}>
-                    <Text style={styles.title}>CERTIFICATION</Text>
+                    <Text style={styles.title}>CERTIFICATIONS</Text>
                     {formData.certifications.map((cert, index) => (
                         <View key={index} style={styles.entry}>
-                            <Text style={styles.entryTitle}>{cert.name} by {cert.issuer}</Text>
+                            <Text style={styles.certTitle}>{cert.name} by {cert.issuer}</Text>
                             <View style={styles.row}>
-                                <Text style={styles.gpa}>
-                                    Credential ID - {cert.credentialID} (
+                                <View style={styles.credentialDetails}>
+                                    <Text style={styles.credentialText}>
+                                        ID: {cert.credentialID}
+                                    </Text>
                                     {cert.credentialURL && (
-                                        <Link src={cert.credentialURL} style={styles.link}> {cert.credentialURL} </Link>
-                                    )})
-                                </Text>
-                                <Text style={styles.date}>
-                                    Issued: {cert.issueDate} | Expiry: {cert.expirationDate || "No Expiry"}
-                                </Text>
+                                        <Link src={cert.credentialURL} style={styles.link}>
+                                            Verify
+                                        </Link>
+                                    )}
+                                </View>
+                                <View style={styles.certDate}>
+                                    <Text>Issued: {cert.issueDate}</Text>
+                                    {cert.expirationDate && <Text>Expires: {cert.expirationDate}</Text>}
+                                </View>
                             </View>
                         </View>
                     ))}
@@ -248,4 +288,4 @@ const ModernResumePDF = ({ formData }) => (
     </Document>
 );
 
-export default ModernResumePDF;
+export default CreativeResumePDF;
