@@ -307,7 +307,19 @@ const ModernResume = ({ formData }) => {
             </section>
           )}
 
-
+           {/* Skills Section */}
+           {formData?.skills && (
+            <section>
+              <h2 className="section-header">Skills</h2>
+              <div className="skills-grid">
+                {formData.skills.split(",").map((skill, index) => (
+                  <div key={index} className="skill-item">
+                    {skill.trim()}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Certifications Section */}
           {formData?.certifications?.length > 0 && (
@@ -367,22 +379,8 @@ const ModernResume = ({ formData }) => {
             </section>
           )}
 
-          {/* Skills Section */}
-          {formData?.skills && (
-            <section>
-              <h2 className="section-header">Skills</h2>
-              <div className="skills-grid">
-                {formData.skills.split(",").map((skill, index) => (
-                  <div key={index} className="skill-item">
-                    {skill.trim()}
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-                    {/* Experience Section */}
-                    {formData?.experience?.length > 0 && (
+          {/* Experience Section */}
+          {formData?.experience?.length > 0 && (
             <section>
               <h2 className="section-header">Experience</h2>
               {formData.experience.map((exp, index) => (
