@@ -160,7 +160,7 @@ const ModernResumePDF = ({ formData }) => (
     <Document>
         <Page size="A4" style={styles.page}>
             {/* Full Name at the Top */}
-            {formData.fullName && (
+            {formData.fullName && formData.fullName.trim() && (
                 <View style={styles.fullName}>
                     <Text>{formData.fullName.toUpperCase()}</Text>
                 </View>
@@ -171,136 +171,141 @@ const ModernResumePDF = ({ formData }) => (
                 {/* Left Column */}
                 <View style={styles.leftColumn}>
                     {/* Contact Section */}
-                    <View>
-                        <Text style={styles.sectionHeader}>Contact</Text>
+                    {(formData.phone || formData.email || formData.linkedin || formData.github || formData.portfolio) && (
+                        <View>
+                            <Text style={styles.sectionHeader}>Contact</Text>
 
-                        {formData.phone && (
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-                                <Image src={PhoneImage} style={{ width: 12, height: 12, marginRight: 6 }} />
-                                <Text>{formData.phone}</Text>
-                            </View>
-                        )}
+                            {formData.phone && formData.phone.trim() && (
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+                                    <Image src={PhoneImage} style={{ width: 12, height: 12, marginRight: 6 }} />
+                                    <Text>{formData.phone}</Text>
+                                </View>
+                            )}
 
-                        {formData.email && (
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-                                <Image src={EmailIcon} style={{ width: 12, height: 12, marginRight: 6 }} />
-                                <Link src={`mailto:${formData.email}`} style={styles.contactLink}>
-                                    {formData.email}
-                                </Link>
-                            </View>
-                        )}
+                            {formData.email && formData.email.trim() && (
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+                                    <Image src={EmailIcon} style={{ width: 12, height: 12, marginRight: 6 }} />
+                                    <Link src={`mailto:${formData.email}`} style={styles.contactLink}>
+                                        {formData.email}
+                                    </Link>
+                                </View>
+                            )}
 
-                        {formData.linkedin && (
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-                                <Image src={LinkedInIcon} style={{ width: 12, height: 12, marginRight: 6 }} />
-                                <Link
-                                    src={formData.linkedin.startsWith("https://") ? formData.linkedin : `https://${formData.linkedin}`}
-                                    style={styles.contactLink}
-                                >
-                                    LinkedIn
-                                </Link>
-                            </View>
-                        )}
+                            {formData.linkedin && formData.linkedin.trim() && (
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+                                    <Image src={LinkedInIcon} style={{ width: 12, height: 12, marginRight: 6 }} />
+                                    <Link
+                                        src={formData.linkedin.startsWith("https://") ? formData.linkedin : `https://${formData.linkedin}`}
+                                        style={styles.contactLink}
+                                    >
+                                        LinkedIn
+                                    </Link>
+                                </View>
+                            )}
 
-                        {formData.github && (
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-                                <Image src={GitHubIcon} style={{ width: 12, height: 12, marginRight: 6 }} />
-                                <Link
-                                    src={formData.github.startsWith("https://") ? formData.github : `https://${formData.github}`}
-                                    style={styles.contactLink}
-                                >
-                                    GitHub
-                                </Link>
-                            </View>
-                        )}
+                            {formData.github && formData.github.trim() && (
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+                                    <Image src={GitHubIcon} style={{ width: 12, height: 12, marginRight: 6 }} />
+                                    <Link
+                                        src={formData.github.startsWith("https://") ? formData.github : `https://${formData.github}`}
+                                        style={styles.contactLink}
+                                    >
+                                        GitHub
+                                    </Link>
+                                </View>
+                            )}
 
-                        {formData.portfolio && (
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-                                <Image src={PortfolioIcon} style={{ width: 12, height: 12, marginRight: 6 }} />
-                                <Link
-                                    src={formData.portfolio.startsWith("https://") ? formData.portfolio : `https://${formData.portfolio}`}
-                                    style={styles.contactLink}
-                                >
-                                    Portfolio
-                                </Link>
-                            </View>
-                        )}
-                    </View>
+                            {formData.portfolio && formData.portfolio.trim() && (
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
+                                    <Image src={PortfolioIcon} style={{ width: 12, height: 12, marginRight: 6 }} />
+                                    <Link
+                                        src={formData.portfolio.startsWith("https://") ? formData.portfolio : `https://${formData.portfolio}`}
+                                        style={styles.contactLink}
+                                    >
+                                        Portfolio
+                                    </Link>
+                                </View>
+                            )}
+                        </View>
+                    )}
 
                     {/* Skills Section */}
-                    {formData?.skills && (
+                    {formData?.skills && formData.skills.trim() && (
                         <View>
                             <Text style={styles.sectionHeader}>Skills</Text>
                             <View style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 4 }}>
-                                {formData.skills.split(",").map((skill, index) => (
-                                    <Text key={index} style={styles.skillItem}>
-                                        {skill.trim()}
-                                    </Text>
-                                ))}
+                                {formData.skills.split(",")
+                                    .filter(skill => skill.trim())
+                                    .map((skill, index) => (
+                                        <Text key={index} style={styles.skillItem}>
+                                            {skill.trim()}
+                                        </Text>
+                                    ))}
                             </View>
                         </View>
                     )}
 
                     {/* Education Section */}
-                    {formData?.education?.length > 0 && (
+                    {formData?.education?.length > 0 && formData.education.some(edu => edu.degree || edu.school) && (
                         <View>
                             <Text style={styles.sectionHeader}>Education</Text>
                             {formData.education.map((edu, index) => (
-                                <View key={index} style={{ marginBottom: 8 }}>
-                                    <Text style={styles.itemTitle}>
-                                        <Text style={styles.dot}>•</Text> {edu.degree}
-                                    </Text>
-
-                                    <Text style={styles.eduGpa}>
-                                    {edu.school}, {edu.location}
-                                    </Text>
-
-                                    {edu.gpa && (
-                                        <Text style={styles.eduGpa}>
-                                            GPA: {edu.gpa}
-                                        </Text>
-                                    )}
-
-                                    <Text style={styles.itemDate}>
-                                        {edu.startDate} - {edu.endDate || "Present"}
-                                    </Text>
-                                </View>
+                                edu.degree || edu.school ? (
+                                    <View key={index} style={{ marginBottom: 8 }}>
+                                        {edu.degree && (
+                                            <Text style={styles.itemTitle}>
+                                                <Text style={styles.dot}>•</Text> {edu.degree}
+                                            </Text>
+                                        )}
+                                        {edu.school && (
+                                            <Text style={styles.eduGpa}>
+                                                {edu.school}{edu.location ? `, ${edu.location}` : ''}
+                                            </Text>
+                                        )}
+                                        {edu.gpa && <Text style={styles.eduGpa}>GPA: {edu.gpa}</Text>}
+                                        {(edu.startDate || edu.endDate) && (
+                                            <Text style={styles.itemDate}>
+                                                {edu.startDate} - {edu.endDate || "Present"}
+                                            </Text>
+                                        )}
+                                    </View>
+                                ) : null
                             ))}
                         </View>
                     )}
 
                     {/* Certifications Section */}
-                    {formData?.certifications?.length > 0 && (
+                    {formData?.certifications?.length > 0 && formData.certifications.some(cert => cert.name || cert.issuer) && (
                         <View>
                             <Text style={styles.sectionHeader}>Certifications</Text>
                             {formData.certifications.map((cert, index) => (
-                                <View key={index} style={styles.certificationItem}>
-
-                                    {/* Certification Name */}
-                                    <Text style={styles.certificationTitle}>
-                                        <Text style={styles.dot}>•</Text> {cert.name}
-                                    </Text>
-
-                                    {/* Issuer */}
-                                    <Text style={styles.certificationSubtitle}>{cert.issuer}</Text>
-
-                                    {/* Credential ID and URL */}
-                                    {cert.credential && (
-                                        <Text style={styles.credentialInfo}>
-                                            ID - {cert.credential}{" "}
-                                            {cert.link && (
-                                                <Text style={styles.credentialLink}>
-                                                    (<Text style={{ textDecoration: "underline" }}>{cert.link}</Text>)
-                                                </Text>
-                                            )}
-                                        </Text>
-                                    )}
-
-                                    {/* Certification Date */}
-                                    <Text style={styles.certificationDate}>
-                                        {cert.issueDate} - {cert.expirationDate || "No Expiry"}
-                                    </Text>
-                                </View>
+                                cert.name || cert.issuer ? (
+                                    <View key={index} style={styles.certificationItem}>
+                                        {cert.name && (
+                                            <Text style={styles.certificationTitle}>
+                                                <Text style={styles.dot}>•</Text> {cert.name}
+                                            </Text>
+                                        )}
+                                        {cert.issuer && (
+                                            <Text style={styles.certificationSubtitle}>{cert.issuer}</Text>
+                                        )}
+                                        {cert.credential && (
+                                            <Text style={styles.credentialInfo}>
+                                                ID - {cert.credential}
+                                                {cert.link && (
+                                                    <Text style={styles.credentialLink}>
+                                                        (<Text style={{ textDecoration: "underline" }}>{cert.link}</Text>)
+                                                    </Text>
+                                                )}
+                                            </Text>
+                                        )}
+                                        {(cert.issueDate || cert.expirationDate) && (
+                                            <Text style={styles.certificationDate}>
+                                                {cert.issueDate} - {cert.expirationDate || "No Expiry"}
+                                            </Text>
+                                        )}
+                                    </View>
+                                ) : null
                             ))}
                         </View>
                     )}
@@ -309,7 +314,7 @@ const ModernResumePDF = ({ formData }) => (
                 {/* Right Column */}
                 <View style={styles.rightColumn}>
                     {/* Summary Section */}
-                    {formData?.summary && (
+                    {formData?.summary && formData.summary.trim() && (
                         <View>
                             <Text style={styles.sectionHeader}>Summary</Text>
                             <Text style={styles.itemDescription}>{formData.summary}</Text>
@@ -317,45 +322,57 @@ const ModernResumePDF = ({ formData }) => (
                     )}
 
                     {/* Experience Section */}
-                    {formData?.experience?.length > 0 && (
+                    {formData?.experience?.length > 0 && formData.experience.some(exp => exp.title || exp.company) && (
                         <View>
                             <Text style={styles.sectionHeader}>Experience</Text>
                             {formData.experience.map((exp, index) => (
-                                <View key={index} style={{ marginBottom: 8 }}>
-                                    <Text style={styles.itemTitle}>
-                                        <Text style={styles.dot}>•</Text> {exp.title} <Text style={styles.atText}>at</Text> {exp.company}
-                                    </Text>
-
-                                    <Text style={styles.itemDate}>
-                                        {exp.startDate} - {exp.endDate || "Present"}
-                                    </Text>
-                                    <Text style={styles.itemDescription}>{exp.description}</Text>
-                                </View>
+                                exp.title || exp.company ? (
+                                    <View key={index} style={{ marginBottom: 8 }}>
+                                        {(exp.title || exp.company) && (
+                                            <Text style={styles.itemTitle}>
+                                                <Text style={styles.dot}>•</Text> 
+                                                {exp.title} 
+                                                {exp.company && <Text style={styles.atText}> at {exp.company}</Text>}
+                                            </Text>
+                                        )}
+                                        {(exp.startDate || exp.endDate) && (
+                                            <Text style={styles.itemDate}>
+                                                {exp.startDate} - {exp.endDate || "Present"}
+                                            </Text>
+                                        )}
+                                        {exp.description && (
+                                            <Text style={styles.itemDescription}>{exp.description}</Text>
+                                        )}
+                                    </View>
+                                ) : null
                             ))}
                         </View>
                     )}
 
                     {/* Projects Section */}
-                    {formData?.projects?.length > 0 && (
+                    {formData?.projects?.length > 0 && formData.projects.some(proj => proj.name || proj.description) && (
                         <View>
                             <Text style={styles.sectionHeader}>Projects</Text>
                             {formData.projects.map((proj, index) => (
-                                <View key={index} style={{ marginBottom: 8 }}>
-                                    {/* Project Name and Link in the same row */}
-                                    <View style={styles.projectRow}>
-                                        <Text style={styles.itemTitle}>
-                                            <Text style={styles.dot}>•</Text> {proj.name}
-                                        </Text>
-                                        {proj.link && (
-                                            <Link src={proj.link} style={styles.projectLink}>
-                                                View Project
-                                            </Link>
+                                proj.name || proj.description ? (
+                                    <View key={index} style={{ marginBottom: 8 }}>
+                                        <View style={styles.projectRow}>
+                                            {proj.name && (
+                                                <Text style={styles.itemTitle}>
+                                                    <Text style={styles.dot}>•</Text> {proj.name}
+                                                </Text>
+                                            )}
+                                            {proj.link && (
+                                                <Link src={proj.link} style={styles.projectLink}>
+                                                    View Project
+                                                </Link>
+                                            )}
+                                        </View>
+                                        {proj.description && (
+                                            <Text style={styles.itemDescription}>{proj.description}</Text>
                                         )}
                                     </View>
-
-                                    {/* Project Description */}
-                                    <Text style={styles.itemDescription}>{proj.description}</Text>
-                                </View>
+                                ) : null
                             ))}
                         </View>
                     )}

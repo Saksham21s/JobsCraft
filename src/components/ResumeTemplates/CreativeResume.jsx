@@ -5,242 +5,239 @@ const ModernResume = ({ formData }) => {
         <div>
             <style>
                 {`
-    /* Header Section */
-    .header {
-        text-align: center;
-        margin-bottom: 10px;
-        background-color:rgb(240, 240, 240);
-        border-radius:3px;
-    }
+                /* Header Section */
+                .header {
+                    text-align: center;
+                    margin-bottom: 10px;
+                    background-color:rgb(240, 240, 240);
+                    border-radius:3px;
+                }
 
-    .header .name {
-        font-size: 1.2rem;
-        letter-spacing:1.2px;
-        font-weight: bold;
-        color: #111;
-        margin-bottom: 5px;
-        padding-top:5px;
-        font-family: 'Times-Bold';
-    }
+                .header .name {
+                    font-size: 1.2rem;
+                    letter-spacing:1.2px;
+                    font-weight: bold;
+                    color: #111;
+                    margin-bottom: 5px;
+                    padding-top:5px;
+                    font-family: 'Times-Bold';
+                }
 
-    .header .contact {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        font-size: 0.5rem;
-        color: #111;
-        flex-wrap: wrap;
-        padding-bottom:5px;
-    }
+                .header .contact {
+                    display: flex;
+                    justify-content: center;
+                    gap: 10px;
+                    font-size: 0.5rem;
+                    color: #111;
+                    flex-wrap: wrap;
+                    padding-bottom:5px;
+                }
 
-    .header .contact span:not(:last-child)::after,
-    .header .contact a:not(:last-child)::after {
-        content: "|";
-        margin-left: 8px;
-    }
+                .header .contact span:not(:last-child)::after,
+                .header .contact a:not(:last-child)::after {
+                    content: "|";
+                    margin-left: 8px;
+                }
 
-    .header .contact a {
-        color: #111;
-        text-decoration: none;
-    }
+                .header .contact a {
+                    color: #111;
+                    text-decoration: none;
+                }
 
-    .header .contact a:hover {
-        color:#333; 
-        text-decoration: underline;
-    }
+                .header .contact a:hover {
+                    color:#333; 
+                    text-decoration: underline;
+                }
 
-    /* Skills Section */
-.skills {
-    margin-bottom: 10px;
-}
+                /* Skills Section */
+            .skills {
+                margin-bottom: 10px;
+            }
 
-.skills h2 {
-   font-size: 0.8rem;
-    font-weight: 600;
-    background-color: rgb(240, 240, 240);
-    color: #111;
-    text-align: center;
-    margin-bottom: 5px;
-    padding: 3px;
-}
+            .skills h2 {
+            font-size: 0.8rem;
+                font-weight: 600;
+                background-color: rgb(240, 240, 240);
+                color: #111;
+                text-align: center;
+                margin-bottom: 5px;
+                padding: 3px;
+            }
 
-/* Skill Items as Colorful Badges */
-.skills-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
+            /* Skill Items as Colorful Badges */
+            .skills-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
 
-.skill-item {
-    background-color:lightgrey;
-    color: #111;
-    padding: 6px 10px;
-    font-size: 0.55rem;
-    border-radius:3px;
-    text-transform: capitalize;
-    display: inline-block;
-}
+            .skill-item {
+                background-color:lightgrey;
+                color: #111;
+                padding: 6px 10px;
+                font-size: 0.55rem;
+                border-radius:3px;
+                text-transform: capitalize;
+                display: inline-block;
+            }
 
-    /* Common Section Styling */
-    .summary,
-    .education,
-    .experience,
-    .projects,
-    .skills,
-    .certifications {
-        margin-bottom: 8px;
-    }
+                /* Common Section Styling */
+                .summary,
+                .education,
+                .experience,
+                .projects,
+                .skills,
+                .certifications {
+                    margin-bottom: 8px;
+                }
 
-    .summary h2,
-    .education h2,
-    .experience h2,
-    .projects h2,
-    .skills h2,
-    .certifications h2 {
-       font-size: 0.8rem;
-    font-weight: 600;
-    background-color: rgb(240, 240, 240);
-    color: #000;
-    text-align: center;
-    margin-bottom: 5px;
-    padding: 3px;
-    }
+                .summary h2,
+                .education h2,
+                .experience h2,
+                .projects h2,
+                .skills h2,
+                .certifications h2 {
+                font-size: 0.8rem;
+                font-weight: 600;
+                background-color: rgb(240, 240, 240);
+                color: #000;
+                text-align: center;
+                margin-bottom: 5px;
+                padding: 3px;
+                }
 
-    .summary p,
-    .education-item span,
-    .experience-item span,
-    .experience-item p,
-    .project-item a,
-    .skills p,
-    .certifications-item span {
-        font-size: 0.55rem;
-        color: #666;
-        font-weight: 600;
-        line-height: 1.4;
-    }
+                .summary p,
+                .education-item span,
+                .experience-item span,
+                .experience-item p,
+                .project-item a,
+                .skills p,
+                .certifications-item span {
+                    font-size: 0.55rem;
+                    color: #666;
+                    font-weight: 600;
+                    line-height: 1.4;
+                }
 
-    /* Education & Experience */
-    .education-item,
-    .experience-item,
-    .project-item,
-    .skills,
-    .certifications-item {
-        margin-bottom: 0.5rem;
-    }
+                /* Education & Experience */
+                .education-item,
+                .experience-item,
+                .project-item,
+                .skills,
+                .certifications-item {
+                    margin-bottom: 0.5rem;
+                }
 
-    .education-item h3,
-    .experience-item h3,
-    .project-item h3,
-    .certifications-item h3 {
-        font-size: 0.7rem;
-        font-weight: bold;
-        color: #222;
-    }
+                .education-item h3,
+                .experience-item h3,
+                .project-item h3,
+                .certifications-item h3 {
+                    font-size: 0.7rem;
+                    font-weight: bold;
+                    color: #222;
+                }
 
-    .education-item .date,
-    .experience-item .date {
-        float: right;
-        color: #666;
-        font-size: 0.55rem;
-    }
+                .education-item .date,
+                .experience-item .date {
+                    float: right;
+                    color: #666;
+                    font-size: 0.55rem;
+                }
 
-    /* Projects */
-    .projects {
-        margin-bottom: 15px;
-    }
+                /* Projects */
+                .projects {
+                    margin-bottom: 15px;
+                }
 
-    .project-item {
-        margin-bottom: 10px;
-    }
+                .project-item {
+                    margin-bottom: 10px;
+                }
 
-    .project-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom :5px;
-    }
+                .project-header {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom :5px;
+                }
 
-    .project-item p {
-        font-size: 0.55rem;
-        color: #666;
-        line-height: 1.4;
-    }
+                .project-item p {
+                    font-size: 0.55rem;
+                    color: #666;
+                    line-height: 1.4;
+                }
 
-    /*  Project & Certification Links (Same Styling) */
-    .project-item a,
-    .credential-details a {
-        font-size: 0.5rem;
-        color: #3498db;
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.3s ease-in-out;
-    }
+                /*  Project & Certification Links (Same Styling) */
+                .project-item a,
+                .credential-details a {
+                    font-size: 0.5rem;
+                    color: #3498db;
+                    text-decoration: none;
+                    font-weight: 600;
+                    transition: color 0.3s ease-in-out;
+                }
 
-    .project-item a:hover,
-    .credential-details a:hover {
-        text-decoration: underline;
-        color: #0073e6; 
-    }
+                .project-item a:hover,
+                .credential-details a:hover {
+                    text-decoration: underline;
+                    color: #0073e6; 
+                }
 
-    /* Certifications Section */
-    .certifications-item {
-        margin-bottom: 0.7rem;
-    }
+                /* Certifications Section */
+                .certifications-item {
+                    margin-bottom: 0.7rem;
+                }
 
-    .certifications-item .cert-title {
-        font-size: 0.7rem;
-        font-weight: bold;
-        color: #222;
-        margin-bottom:5px;
-    }
+                .certifications-item .cert-title {
+                    font-size: 0.7rem;
+                    font-weight: bold;
+                    color: #222;
+                    margin-bottom:5px;
+                }
 
- /* Common Row Styling */
-.row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
+            /* Common Row Styling */
+            .row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+            }
 
-/* Ensuring the credentials stay on the same row */
-.credential-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    white-space: nowrap;  /* Force everything on the same line */
-    gap: 15px;
-}
+            /* Ensuring the credentials stay on the same row */
+            .credential-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                white-space: nowrap;  /* Force everything on the same line */
+                gap: 15px;
+            }
 
-/* Credential ID & URL */
-.credential-details {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-}
+            /* Credential ID & URL */
+            .credential-details {
+                display: flex;
+                align-items: center;
+                flex-shrink: 0;
+            }
 
-/* Issue & Expiry Dates */
-.cert-date {
-    display: flex;
-    font-weight: 600;
-    flex-shrink: 0;
-    gap:5px;
-}
+            /* Issue & Expiry Dates */
+            .cert-date {
+                display: flex;
+                font-weight: 600;
+                flex-shrink: 0;
+                gap:5px;
+            }
 
-/* Making sure links look clean */
-.credential-details a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-}
+            /* Making sure links look clean */
+            .credential-details a {
+                color: #007bff;
+                text-decoration: none;
+                font-weight: bold;
+            }
 
-.credential-details a:hover {
-    text-decoration: underline;
-}
-
-
-
+            .credential-details a:hover {
+                text-decoration: underline;
+            }
     /* Mobile Responsive */
-    @media (max-width: 480px) {
+          @media (max-width: 480px) {
         .header .contact {
             font-size: 0.4rem;
         }

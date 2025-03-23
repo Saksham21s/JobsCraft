@@ -214,35 +214,36 @@ const Icon = ({ d }) => (
 const CreativeResumePDF = ({ formData }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      {(formData?.fullName ||
-        formData?.phone ||
-        formData?.email ||
-        formData?.linkedin ||
-        formData?.github ||
-        formData?.portfolio) && (
+      {/* Header Section with Contact Info */}
+      {(formData?.fullName?.trim() ||
+        formData?.phone?.trim() ||
+        formData?.email?.trim() ||
+        formData?.linkedin?.trim() ||
+        formData?.github?.trim() ||
+        formData?.portfolio?.trim()) && (
         <View style={styles.header}>
-          {formData.fullName && (
+          {formData.fullName && formData.fullName.trim() && (
             <Text style={styles.name}>{formData.fullName}</Text>
           )}
           <View style={styles.contact}>
-            {formData.phone && (
+            {formData.phone && formData.phone.trim() && (
               <View style={styles.contactItem}>
                 <Icon d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 01.85-.27c.9.16 1.85.25 2.74.25a1 1 0 011 1v3.55a1 1 0 01-1 1A16.92 16.92 0 013.07 3.07a1 1 0 011-1H7.7a1 1 0 011 1c0 .89.09 1.84.25 2.74a1 1 0 01-.27.85l-2.2 2.2z" />
                 <Text>{formData.phone}</Text>
               </View>
             )}
-            {formData.email && (
+            {formData.email && formData.email.trim() && (
               <>
-                <Text style={styles.separator}>|</Text>
+                {formData.phone && <Text style={styles.separator}>|</Text>}
                 <View style={styles.contactItem}>
                   <Icon d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 2l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z" />
                   <Text>{formData.email}</Text>
                 </View>
               </>
             )}
-            {formData.linkedin && (
+            {formData.linkedin && formData.linkedin.trim() && (
               <>
-                <Text style={styles.separator}>|</Text>
+                {(formData.phone || formData.email) && <Text style={styles.separator}>|</Text>}
                 <View style={styles.contactItem}>
                   <Link src={formData.linkedin} style={styles.headerLink}>
                     LinkedIn
@@ -250,9 +251,11 @@ const CreativeResumePDF = ({ formData }) => (
                 </View>
               </>
             )}
-            {formData.github && (
+            {formData.github && formData.github.trim() && (
               <>
-                <Text style={styles.separator}>|</Text>
+                {(formData.phone || formData.email || formData.linkedin) && (
+                  <Text style={styles.separator}>|</Text>
+                )}
                 <View style={styles.contactItem}>
                   <Link src={formData.github} style={styles.headerLink}>
                     GitHub
@@ -260,15 +263,12 @@ const CreativeResumePDF = ({ formData }) => (
                 </View>
               </>
             )}
-            {formData.portfolio && (
+            {formData.portfolio && formData.portfolio.trim() && (
               <>
-                <Text style={styles.separator}>|</Text>
-                <View
-                  style={[
-                    styles.iconLinkContainer,
-                    { flexDirection: "row", alignItems: "center" },
-                  ]}
-                >
+                {(formData.phone || formData.email || formData.linkedin || formData.github) && (
+                  <Text style={styles.separator}>|</Text>
+                )}
+                <View style={styles.contactItem}>
                   <Link src={formData.portfolio} style={styles.headerLink}>
                     Portfolio
                   </Link>
@@ -280,7 +280,7 @@ const CreativeResumePDF = ({ formData }) => (
       )}
 
       {/* Summary Section */}
-      {formData?.summary && (
+      {formData?.summary && formData.summary.trim() && (
         <View style={styles.section}>
           <Text style={styles.title}>SUMMARY</Text>
           <Text style={styles.text}>{formData.summary}</Text>
@@ -288,106 +288,146 @@ const CreativeResumePDF = ({ formData }) => (
       )}
 
       {/* Skills Section */}
-      {formData?.skills && (
+      {formData?.skills && formData.skills.trim() && (
         <View style={styles.section}>
           <Text style={styles.title}>SKILLS</Text>
-          <Text style={styles.text}>{formData.skills}</Text>
+          <View style={styles.skillsContainer}>
+            {formData.skills.split(",")
+              .filter(skill => skill.trim())
+              .map((skill, index) => (
+                <Text key={index} style={styles.skillItem}>
+                  {skill.trim()}
+                </Text>
+              ))}
+          </View>
         </View>
       )}
-           {/* Projects Section */}
-      {formData?.projects?.length > 0 && (
+
+      {/* Projects Section */}
+      {formData?.projects?.length > 0 && formData.projects.some(proj => proj.name || proj.description) && (
         <View style={styles.section}>
           <Text style={styles.title}>PROJECTS</Text>
           {formData.projects.map((proj, index) => (
-            <View key={index} style={styles.entry}>
-              <View style={styles.row}>
-                <Text style={styles.entryTitle}><Text style={styles.dot}>•</Text> {proj.name}</Text>
-                <Text style={styles.gpa}>
-                  {" "}
-                  <Text style={styles.linkLabel}>Link: </Text>
-                  <Text style={styles.linkUrl}>{proj.link}</Text>
-                </Text>
+            proj.name || proj.description ? (
+              <View key={index} style={styles.projectEntry}>
+                <View style={styles.row}>
+                  {proj.name && (
+                    <Text style={styles.entryTitle}>
+                      <Text style={styles.bullet}>•</Text> {proj.name}
+                    </Text>
+                  )}
+                  {proj.link && proj.link.trim() && (
+                    <View style={styles.linkContainer}>
+                      <Text style={styles.linkLabel}>Link: </Text>
+                      <Link src={proj.link} style={styles.projectLink}>
+                        {proj.link}
+                      </Link>
+                    </View>
+                  )}
+                </View>
+                {proj.description && <Text style={styles.text}>{proj.description}</Text>}
               </View>
-              <Text style={styles.text}>{proj.description}</Text>
-            </View>
+            ) : null
           ))}
         </View>
       )}
-      
+
       {/* Experience Section */}
-      {formData?.experience?.length > 0 && (
+      {formData?.experience?.length > 0 && formData.experience.some(exp => exp.title || exp.company) && (
         <View style={styles.section}>
           <Text style={styles.title}>EXPERIENCE</Text>
           {formData.experience.map((exp, index) => (
-            <View key={index} style={styles.entry}>
-              <Text style={styles.entryTitle}>
-                {exp.title} at {exp.company}
-              </Text>
-              <View style={styles.row}>
-                <Text style={styles.gpa}>Location: {exp.location}</Text>
-                <Text style={styles.date}>
-                  {exp.startDate} - {exp.endDate || "Present"}
-                </Text>
+            exp.title || exp.company ? (
+              <View key={index} style={styles.experienceEntry}>
+                {(exp.title || exp.company) && (
+                  <Text style={styles.entryTitle}>
+                    {exp.title} {exp.company && `at ${exp.company}`}
+                  </Text>
+                )}
+                <View style={styles.row}>
+                  {exp.location && (
+                    <Text style={styles.location}>Location: {exp.location}</Text>
+                  )}
+                  {(exp.startDate || exp.endDate) && (
+                    <Text style={styles.date}>
+                      {exp.startDate} - {exp.endDate || "Present"}
+                    </Text>
+                  )}
+                </View>
+                {exp.description && <Text style={styles.text}>{exp.description}</Text>}
               </View>
-              <Text style={styles.text}>{exp.description}</Text>
-            </View>
+            ) : null
           ))}
         </View>
       )}
 
       {/* Education Section */}
-      {formData?.education?.length > 0 && (
+      {formData?.education?.length > 0 && formData.education.some(edu => edu.degree || edu.school) && (
         <View style={styles.section}>
           <Text style={styles.title}>EDUCATION</Text>
           {formData.education.map((edu, index) => (
-            <View key={index} style={styles.entry}>
-              <Text style={styles.entryTitle}>
-                {edu.degree} at {edu.school}, {edu.location}
-              </Text>
-              <View style={styles.row}>
-                <Text style={styles.gpa}>GPA: {edu.gpa}</Text>
-                <Text style={styles.date}>
-                  {edu.startDate} - {edu.endDate || "Present"}
+            edu.degree || edu.school ? (
+              <View key={index} style={styles.entry}>
+                <Text style={styles.entryTitle}>
+                  {edu.degree && edu.degree}
+                  {edu.school && ` at ${edu.school}`}
+                  {edu.location && `, ${edu.location}`}
                 </Text>
+                <View style={styles.row}>
+                  {edu.gpa && <Text style={styles.gpa}>GPA: {edu.gpa}</Text>}
+                  {(edu.startDate || edu.endDate) && (
+                    <Text style={styles.date}>
+                      {edu.startDate} - {edu.endDate || "Present"}
+                    </Text>
+                  )}
+                </View>
               </View>
-            </View>
+            ) : null
           ))}
         </View>
       )}
 
-      {/* Projects Section */}
-      {formData?.certifications?.length > 0 && (
+      {/* Certifications Section */}
+      {formData?.certifications?.length > 0 && formData.certifications.some(cert => cert.name || cert.issuer) && (
         <View style={styles.section}>
           <Text style={styles.title}>CERTIFICATIONS</Text>
           {formData.certifications.map((cert, index) => (
-            <View key={index} style={styles.entry}>
-              <Text style={styles.certTitle}>
-                {cert.name} by {cert.issuer}
-              </Text>
-              <View style={styles.row}>
-                <View style={styles.credentialDetails}>
-                  <View style={styles.credentialContainer}>
-                    <Text style={styles.credentialText}>
-                      ID: {cert.credentialID}
-                    </Text>
-                    {cert.credentialURL && (
-                      <>
-                        <Text style={styles.credentialText}> | </Text>
-                        <Link src={cert.credentialURL} style={styles.credentialLink}>
-                          Verify Certificate
-                        </Link>
-                      </>
-                    )}
-                  </View>
-                </View>
-                <View style={styles.date}>
-                  <Text>Issued: {cert.issueDate}</Text>
-                  {cert.expirationDate && (
-                    <Text>Expires: {cert.expirationDate}</Text>
+            cert.name || cert.issuer ? (
+              <View key={index} style={styles.certificationEntry}>
+                {(cert.name || cert.issuer) && (
+                  <Text style={styles.certTitle}>
+                    {cert.name} {cert.issuer && `by ${cert.issuer}`}
+                  </Text>
+                )}
+                <View style={styles.row}>
+                  {(cert.credentialID || cert.credentialURL) && (
+                    <View style={styles.credentialDetails}>
+                      <View style={styles.credentialContainer}>
+                        {cert.credentialID && (
+                          <Text style={styles.credentialText}>
+                            ID: {cert.credentialID}
+                          </Text>
+                        )}
+                        {cert.credentialURL && (
+                          <>
+                            {cert.credentialID && <Text style={styles.credentialText}> | </Text>}
+                            <Link src={cert.credentialURL} style={styles.credentialLink}>
+                              Verify Certificate
+                            </Link>
+                          </>
+                        )}
+                      </View>
+                    </View>
+                  )}
+                  {(cert.issueDate || cert.expirationDate) && (
+                    <View style={styles.date}>
+                      {cert.issueDate && <Text>Issued: {cert.issueDate}</Text>}
+                      {cert.expirationDate && <Text>Expires: {cert.expirationDate}</Text>}
+                    </View>
                   )}
                 </View>
               </View>
-            </View>
+            ) : null
           ))}
         </View>
       )}

@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
     const [localFormData, setLocalFormData] = useState(() => {
-        const storedData = sessionStorage.getItem("formData");
+        const storedData = localStorage.getItem("formData");
         return storedData ? JSON.parse(storedData) : {
             fullName: "",
             jobTitle: "",
@@ -24,7 +24,7 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
     });
 
     const [expandedSections, setExpandedSections] = useState(() => {
-        const storedSections = sessionStorage.getItem("expandedSections");
+        const storedSections = localStorage.getItem("expandedSections");
         if (storedSections) {
             return JSON.parse(storedSections);
         } else {
@@ -38,9 +38,11 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
     });
 
     useEffect(() => {
-        sessionStorage.setItem("formData", JSON.stringify(localFormData));
-        sessionStorage.setItem("expandedSections", JSON.stringify(expandedSections));
-    }, [localFormData, expandedSections]);
+        localStorage.setItem("formData", JSON.stringify(localFormData));
+        localStorage.setItem("expandedSections", JSON.stringify(expandedSections));
+        
+        setFormData(localFormData);
+    }, [localFormData, expandedSections, setFormData]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
