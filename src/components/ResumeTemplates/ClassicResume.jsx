@@ -9,6 +9,18 @@ const ModernResume = ({ formData }) => {
     <div className="modern-resume">
       <style>
         {`
+                /* Primary Colors */
+                :root {
+                    --primary: #2563eb;
+                    --primary-light: #60a5fa;
+                    --primary-dark: #1e40af;
+                    --accent: #3b82f6; 
+                    --text-dark: #1e293b;
+                    --text-medium: #475569;
+                    --text-light: #64748b;
+                    --bg-light: #f1f5f9;
+                }
+
                 .modern-resume {
                     font-family: 'Inter', sans-serif;
                     display: flex;
@@ -23,16 +35,16 @@ const ModernResume = ({ formData }) => {
                 .full-name {
                     font-size: 1.5rem;
                     font-weight: 700;
-                    color:rgb(255, 255, 255);
+                    color: white;
                     text-align: center;
-                    background-color :rgb(92, 168, 255);
+                    background: linear-gradient(135deg, var(--primary), var(--primary-light));
                     padding:10px;
                 }
 
                 .content-container {
                     display: grid;
                     grid-template-columns: 110px 1fr;
-                    gap: 2.2rem;
+                    gap: 2.5rem;
                 }
 
                 .left-column {
@@ -50,10 +62,10 @@ const ModernResume = ({ formData }) => {
                 .section-header {
                     font-size: 11px;
                     font-weight: 600;
-                    color: #1a1a1a;
+                    color: var(--primary);
                     margin-bottom: 6px;
                     text-transform: uppercase;
-                    border-bottom: 1px solid #6366f1;
+                    border-bottom: 1px solid var(--primary-light);
                     padding-bottom: 2px;
                 }
 
@@ -62,23 +74,24 @@ const ModernResume = ({ formData }) => {
                     align-items: center;
                     gap: 4px;
                     font-size: 10px;
-                    color: #3f3f46;
+                    color: var(--text-medium);
                     margin-bottom: 4px;
+                    word-spacing: 1px;
                 }
 
                 .contact-item a {
-                    color: #3f3f46;
+                    color: var(--text-medium);
                     text-decoration: none;
                 }
 
                 .contact-item a:hover {
-                    color: #6366f1;
+                    color: var(--primary);
                 }
 
                 .contact-icon {
                     width: 12px;
                     height: 12px;
-                    color: #6366f1;
+                    color: var(--primary);
                     flex-shrink: 0;
                 }
 
@@ -89,16 +102,18 @@ const ModernResume = ({ formData }) => {
                 }
                 .skill-item {
                     font-size: 9px;
-                    color: #3f3f46;
-                    background: #f4f4f5;
+                    color: var(--text-medium);
+                    background: var(--bg-light);
                     padding: 5px 10px;
                     width: fit-content;
                     border-radius: 10px;
                     text-align: center;
+                    border: 1px solid var(--primary-light);
                 }
 
                 .skill-item:hover {
-                    background: #6366f1;
+                    transition: background 0.5s ease;
+                    background: var(--primary);
                     color: white;
                 }
 
@@ -124,12 +139,12 @@ const ModernResume = ({ formData }) => {
                 }
 
                 .credential-link {
-                  color: #6366f1;
+                  color: var(--primary);
                   text-decoration: none;
                 }
 
                 .credential-link:hover {
-                  color: #4f46e5;
+                  color: var(--primary-dark);
                 }
 
                 .certification-date {
@@ -147,25 +162,25 @@ const ModernResume = ({ formData }) => {
                 .item-title {
                     font-size: 11px;
                     font-weight: 600;
-                    color: #1a1a1a;
+                    color: var(--text-dark);
                     margin-bottom: 2px;
                 }
 
                 .item-subtitle {
                     font-size: 10px;
-                    color: #3f3f46;
+                    color: var(--text-medium);
                     margin-bottom: 2px;
                 }
 
                 .item-date {
                     font-size: 9px;
-                    color: #71717a;
+                    color: var(--text-light);
                     margin-bottom: 2px;
                 }
 
                 .item-description {
                     font-size: 10px;
-                    color: #52525b;
+                    color: var(--text-medium);
                     line-height: 1.3;
                 }
 
@@ -181,12 +196,12 @@ const ModernResume = ({ formData }) => {
 
                 .project-link {
                   font-size: 10px;
-                  color: #6366f1;
+                  color: var(--primary);
                   text-decoration: none;
                 }
 
                 .project-link:hover {
-                  color: #4f46e5;
+                  color: var(--primary-dark);
                 }
 
                 .experience-item > p,
@@ -202,13 +217,17 @@ const ModernResume = ({ formData }) => {
 
                 .edu-gpa {
                   font-size: 10px;
-                  color: #71717a;
+                  color: var(--primary);
                   font-weight: 500;
                 }
 
                 .item-date {
                   font-size: 9px;
                   color: #71717a;
+                }
+
+                .dot {
+                    color: var(--primary);
                 }
 
                 `}
@@ -288,25 +307,6 @@ const ModernResume = ({ formData }) => {
             )}
           </section>
 
-          {/* Education Section */}
-          {formData?.education?.length > 0 && (
-            <section>
-              <h2 className="section-header">Education</h2>
-              {formData.education.map((edu, index) => (
-                <div key={index} className="education-item">
-                  <h3 className="item-title">
-                    <span className="dot">•</span> {edu.degree}
-                  </h3>
-                  <p className="item-subtitle">{edu.school}</p>
-                  <p className="item-date">
-                    {edu.startDate} - {edu.endDate || "Present"}
-                  </p>
-                  {edu.gpa && <p className="edu-gpa">GPA: {edu.gpa}</p>}
-                </div>
-              ))}
-            </section>
-          )}
-
            {/* Skills Section */}
            {formData?.skills && (
             <section>
@@ -318,6 +318,25 @@ const ModernResume = ({ formData }) => {
                   </div>
                 ))}
               </div>
+            </section>
+          )}
+
+          {/* Education Section */}
+          {formData?.education?.length > 0 && (
+            <section>
+              <h2 className="section-header">Education</h2>
+              {formData.education.map((edu, index) => (
+                <div key={index} className="education-item">
+                  <h3 className="item-title">
+                    <span className="dot">•</span> {edu.degree}
+                  </h3>
+                  <p className="item-subtitle">{edu.school}</p>
+                  {edu.gpa && <p className="edu-gpa">GPA: {edu.gpa}</p>}
+                  <p className="item-date">
+                    {edu.startDate} - {edu.endDate || "Present"}
+                  </p>
+                </div>
+              ))}
             </section>
           )}
 

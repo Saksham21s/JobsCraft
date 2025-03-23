@@ -11,16 +11,18 @@ const styles = StyleSheet.create({
         padding: 20,
         fontSize: 13,
         fontFamily: "Helvetica",
-        color: "#333",
+        color: "#2d3748",
     },
     fullName: {
         fontSize: 22,
         fontWeight: "bold",
-        color: "#fff",
+        color: "#ffffff",
         textAlign: "center",
-        backgroundColor: "#5ca8ff",
+        backgroundColor: "#2563eb",
         padding: 10,
         marginBottom: 12,
+        textTransform: "uppercase",
+        letterSpacing: 2,
     },
     contentContainer: {
         display: "flex",
@@ -42,10 +44,10 @@ const styles = StyleSheet.create({
     sectionHeader: {
         fontSize: 14,
         fontWeight: "bold",
-        color: "#1a1a1a",
+        color: "#222",
         marginBottom: 6,
         textTransform: "uppercase",
-        borderBottom: "1px solid #6366f1",
+        borderBottom: "1px solid #3b82f6",
         paddingBottom: 4,
     },
     contactItem: {
@@ -54,18 +56,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 6,
         fontSize: 12,
-        color: "#3f3f46",
+        color: "#4b5563",
         marginBottom: 5,
     },
     contactLink: {
-        color: "#3f3f46",
+        color: "#4b5563",
         textDecoration: "none",
         fontSize: 12,
     },
     skillItem: {
         fontSize: 12,
-        color: "#3f3f46",
-        backgroundColor: "#f4f4f5",
+        color: "#2563eb",
+        backgroundColor: "#eff6ff",
         padding: 6,
         borderRadius: 5,
         textAlign: "center",
@@ -77,39 +79,46 @@ const styles = StyleSheet.create({
     certificationTitle: {
         fontSize: 13,
         fontWeight: "bold",
-        color: "#1a1a1a",
+        color: "#1e40af",
     },
     certificationSubtitle: {
         fontSize: 12,
         fontWeight: "bold",
         marginBottom: 3,
-        color: "#71717a",
+        color:  "#2563eb",
+        marginLeft:7,
     },
     certificationDate: {
-        fontSize: 11,
-        color: "#71717a",
+        fontSize: 10,
+        color: "#6b7280",
+        fontFamily: "Helvetica",
+        fontStyle: "italic",
+        marginLeft:7,
     },
     itemTitle: {
         fontSize: 14,
         fontWeight: "bold",
-        color: "#1a1a1a",
+        color: "#1e40af",
         marginBottom: 3,
     },
     itemSubtitle: {
         fontSize: 12,
-        color: "#71717a",
+        color: "#4b5563",
         marginBottom: 3,
     },
     itemDate: {
-        fontSize: 11,
-        color: "#71717a",
-        marginBottom: 3,
+        fontSize: 10,
+        color: "#6b7280",
+        fontFamily: "Helvetica",
+        fontStyle: "italic",
+        marginLeft:7,
     },
     itemDescription: {
         fontSize: 12,
-        color: "#52525b",
+        color: "#4b5563",
         lineHeight: 1.5,
         marginTop: 3,
+        marginLeft:7,
     },
     projectRow: {
         flexDirection: "row",
@@ -117,7 +126,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     projectLink: {
-        color: "#007bff",
+        color: "#2563eb",
         textDecoration: "none",
         fontWeight: "500",
         fontSize: 12,
@@ -130,18 +139,19 @@ const styles = StyleSheet.create({
     },
     eduGpa: {
         fontSize: 12,
-        color: "#71717a",
+        color: "#2563eb",
         fontWeight: "bold",
         marginBottom: 4,
+        marginLeft:7,
     },
     dot: {
         fontSize: 13,
-        color: "#6366f1",
+        color: "#2563eb",
         marginRight: 4,
     },
     icon: {
         fontSize: 13,
-        color: "#6366f1",
+        color: "#2563eb",
         marginRight: 4,
     },
 });
@@ -152,7 +162,7 @@ const ModernResumePDF = ({ formData }) => (
             {/* Full Name at the Top */}
             {formData.fullName && (
                 <View style={styles.fullName}>
-                    <Text>{formData.fullName}</Text>
+                    <Text>{formData.fullName.toUpperCase()}</Text>
                 </View>
             )}
 
@@ -242,7 +252,7 @@ const ModernResumePDF = ({ formData }) => (
                                     </Text>
 
                                     <Text style={styles.eduGpa}>
-                                        at {edu.school}, {edu.location}
+                                    {edu.school}, {edu.location}
                                     </Text>
 
                                     {edu.gpa && (

@@ -25,7 +25,16 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
 
     const [expandedSections, setExpandedSections] = useState(() => {
         const storedSections = sessionStorage.getItem("expandedSections");
-        return storedSections ? JSON.parse(storedSections) : {};
+        if (storedSections) {
+            return JSON.parse(storedSections);
+        } else {
+            return {
+                "education-0": true,
+                "experience-0": true,
+                "projects-0": true,
+                "certifications-0": true
+            };
+        }
     });
 
     useEffect(() => {
@@ -214,9 +223,11 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
         
         // Update expanded sections to maintain the same item expanded after moving
         if (currentExpanded) {
-            setExpandedSections({
+            setExpandedSections(prev => ({
+                ...prev,
+                [`${section}-${index}`]: false,
                 [`${section}-${index-1}`]: true
-            });
+            }));
         }
     };
 
@@ -237,9 +248,11 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
         
         // Update expanded sections to maintain the same item expanded after moving
         if (currentExpanded) {
-            setExpandedSections({
+            setExpandedSections(prev => ({
+                ...prev,
+                [`${section}-${index}`]: false,
                 [`${section}-${index+1}`]: true
-            });
+            }));
         }
     };
 

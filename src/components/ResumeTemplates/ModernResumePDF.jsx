@@ -10,37 +10,39 @@ import {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 20,
+    padding: 30,
     fontFamily: "Helvetica",
-    fontSize: 14,
-    color: "#000",
+    fontSize: 12,
+    color: "#2d3748",
   },
   section: {
-    marginBottom: 8,
+    marginBottom: 12,
   },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 3,
+    marginTop: 4,
   },
   header: {
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: 15,
   },
   name: {
-    fontSize: 20,
-    fontWeight: 600,
-    fontFamily: "Times-Bold",
-    color: "#000",
-    marginBottom: 5,
+    fontSize: 24,
+    fontWeight: "bold",
+    fontFamily: "Helvetica-Bold",
+    color: "#111827",
+    marginBottom: 6,
+    letterSpacing: 1,
+    textTransform: "uppercase",
   },
   headerLink: {
-    fontSize: 10,
-    color: "#666",
-    textDecoration: "underline",
-    marginRight: 8,
-    marginLeft: 8,
+    fontSize: 11,
+    color: "#4b5563",
+    textDecoration: "none",
+    marginRight: 10,
+    marginLeft: 10,
   },
   headerLinkHover: {
     color: "#0073e6",
@@ -48,63 +50,69 @@ const styles = StyleSheet.create({
   contact: {
     flexDirection: "row",
     justifyContent: "center",
-    fontSize: 10,
-    color: "#666",
+    fontSize: 11,
+    color: "#4b5563",
     flexWrap: "wrap",
   },
   contactItem: {
-    marginRight: 8,
-    marginLeft: 8,
+    marginRight: 10,
+    marginLeft: 10,
   },
   contactItemLast: {
     marginRight: 0,
   },
   title: {
-    fontSize: 14,
-    fontWeight: 600,
-    fontFamily: "Times-Bold",
-    borderBottom: "2px solid #969696",
-    paddingBottom: 3,
-    marginBottom: 8,
+    fontSize: 16,
+    fontWeight: "bold",
+    fontFamily: "Helvetica-Bold",
+    borderBottom: "1.5px solid #94a3b8",
+    paddingBottom: 4,
+    marginBottom: 10,
+    color: "#111827",
   },
   text: {
-    fontSize: 12,
-    color: "#666",
-    lineHeight: 1.4,
+    fontSize: 11,
+    color: "#4b5563",
+    lineHeight: 1.5,
     marginLeft: 12,
   },
   skillstext: {
-    fontSize: 12,
-    color: "#222",
-    lineHeight: 1.4,
+    fontSize: 11,
+    color: "#2d3748",
+    lineHeight: 1.5,
     marginLeft: 12,
-    marginBottom: 5,
+    marginBottom: 6,
   },
   entry: {
-    marginBottom: 5,
+    marginBottom: 8,
   },
   entryTitle: {
-    fontSize: 14,
-    fontWeight: 500,
-    color: "#222",
+    fontSize: 13,
+    fontWeight: "bold",
+    color: "#2d3748",
     marginBottom: 4,
   },
   date: {
-    fontSize: 11,
-    color: "#666",
-    fontFamily: "Times-Italic",
+    fontSize: 10,
+    color: "#6b7280",
+    fontFamily: "Helvetica-Oblique",
     textAlign: "right",
     marginBottom: 4,
+  },
+  location: {
+    fontSize: 10,
+    color: "#6b7280",
+    fontFamily: "Helvetica-Oblique",
   },
   gpa: {
-    fontSize: 11,
-    color: "#666",
+    fontSize: 10,
+    color: "#2563eb",
     textAlign: "right",
     marginBottom: 4,
+    fontWeight: "bold",
   },
   link: {
-    fontSize: 12,
-    color: "#3498db",
+    fontSize: 11,
     textDecoration: "none",
   },
   linkHover: {
@@ -114,21 +122,15 @@ const styles = StyleSheet.create({
   projectHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginBottom: 3,
   },
   certItem: {
-    marginBottom: 7,
+    marginBottom: 8,
   },
   certTitle: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "bold",
-    color: "#222",
-  },
-  certDate: {
-    fontSize: 10,
-    fontWeight: "600",
-    color: "#666",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    color: "#2d3748",
   },
   credentialDetails: {
     flexDirection: "row",
@@ -140,6 +142,13 @@ const styles = StyleSheet.create({
   credentialText: {
     fontSize: 12,
     fontWeight: "500",
+  },
+  linkLabel: {
+    color: "#111827",
+    fontWeight: "medium",
+  },
+  linkUrl: {
+    color: "#2563eb",
   },
 });
 
@@ -210,7 +219,7 @@ const ModernResumePDF = ({ formData }) => (
           {formData.education.map((edu, index) => (
             <View key={index} style={styles.entry}>
               <Text style={styles.entryTitle}>
-                {edu.degree} at {edu.school}, {edu.location}
+              <Text style={styles.dot}>•</Text> {edu.degree} at {edu.school}, {edu.location}
               </Text>
               <View style={styles.row}>
                 <Text style={styles.gpa}>GPA - {edu.gpa}</Text>
@@ -230,10 +239,10 @@ const ModernResumePDF = ({ formData }) => (
           {formData.experience.map((exp, index) => (
             <View key={index} style={styles.entry}>
               <Text style={styles.entryTitle}>
-                {exp.title} at {exp.company}
+              <Text style={styles.dot}>•</Text> {exp.title} at {exp.company}
               </Text>
               <View style={styles.row}>
-                <Text style={styles.gpa}>Location - {exp.location}</Text>
+                <Text style={styles.date}>Location - {exp.location}</Text>
                 <Text style={styles.date}>
                   {exp.startDate} - {exp.endDate || "Present"}
                 </Text>
@@ -251,16 +260,11 @@ const ModernResumePDF = ({ formData }) => (
           {formData.projects.map((proj, index) => (
             <View key={index} style={styles.entry}>
               <View style={styles.row}>
-                <Text style={styles.entryTitle}>{proj.name}</Text>
+                <Text style={styles.entryTitle}><Text style={styles.dot}>•</Text> {proj.name}</Text>
                 <Text style={styles.gpa}>
                   {" "}
-                  Link -{" "}
-                  {proj.link && (
-                    <Link src={proj.link} style={styles.link}>
-                      {" "}
-                      {proj.link}
-                    </Link>
-                  )}
+                  <Text style={styles.linkLabel}>Link: </Text>
+                  <Text style={styles.linkUrl}>{proj.link}</Text>
                 </Text>
               </View>
               <Text style={styles.text}>{proj.description}</Text>
@@ -284,7 +288,7 @@ const ModernResumePDF = ({ formData }) => (
           {formData.certifications.map((cert, index) => (
             <View key={index} style={styles.entry}>
               <Text style={styles.certTitle}>
-                {cert.name} by {cert.issuer}
+              <Text style={styles.dot}>•</Text> {cert.name} by {cert.issuer}
               </Text>
               <View style={styles.row}>
                 <View style={styles.credentialDetails}>
@@ -297,7 +301,7 @@ const ModernResumePDF = ({ formData }) => (
                     </Link>
                   )} )</Text> 
                 </View>
-                <View style={styles.certDate}>
+                <View style={styles.date}>
                   <Text>Issued: {cert.issueDate}</Text>
                   {cert.expirationDate && <Text>Expires: {cert.expirationDate}</Text>}
                 </View>

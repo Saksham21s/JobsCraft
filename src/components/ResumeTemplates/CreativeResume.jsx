@@ -326,33 +326,42 @@ const ModernResume = ({ formData }) => {
                 </section>
             )}
 
-            {/* Education */}
-            {formData?.education?.length > 0 &&
-                formData.education.some((edu) => edu.degree || edu.school) && (
-                    <section className="education">
-                        <h2>Education</h2>
-                        {formData.education.map(
-                            (edu, index) =>
-                                (edu.degree || edu.school) && (
-                                    <div key={index} className="education-item">
-                                        {/* Degree, School & Location  */}
-                                        <h3>
-                                            {edu.degree}
-                                            {edu.school && ` at ${edu.school}`}
-                                            {edu.location && `, ${edu.location}`}
-                                        </h3>
+            {/* Skills Section */}
+            {formData?.skills && formData.skills.trim() && (
+                <section className="skills">
+                    <h2>Skills</h2>
+                    <div className="skills-container">
+                        {formData.skills.split(',').map((skill, index) => (
+                            <div key={index} className="skill-item">{skill.trim()}</div>
+                        ))}
+                    </div>
+                </section>
+            )}
 
-                                        {/* GPA & Start-End Date  */}
-                                        <div className="education-details">
-                                            {(edu.startDate || edu.endDate) && (
-                                                <span className="date">
-                                                    ({edu.startDate ? edu.startDate : "N/A"} - {edu.endDate ? edu.endDate : "Present"})
-                                                </span>
+            {/* Projects Section */}
+            {formData?.projects?.length > 0 &&
+                formData.projects.some((proj) => proj.name || proj.description) && (
+                    <section className="projects">
+                        <h2>Projects</h2>
+                        {formData.projects.map(
+                            (proj, index) =>
+                                (proj.name || proj.description) && (
+                                    <div key={index} className="project-item">
+                                        <div className="project-header">
+                                            {proj.name && <h3>{proj.name}</h3>}
+                                            {proj.link && (
+                                                <a href={proj.link} className="project-link">
+                                                    {proj.link}
+                                                </a>
                                             )}
-                                            {edu.gpa && <span> GPA: {edu.gpa}</span>}
                                         </div>
-
-
+                                        {proj.description && (
+                                            <p
+                                                dangerouslySetInnerHTML={{
+                                                    __html: proj.description.replace(/\n/g, "<br/>"),
+                                                }}
+                                            ></p>
+                                        )}
                                     </div>
                                 )
                         )}
@@ -394,47 +403,38 @@ const ModernResume = ({ formData }) => {
                     </section>
                 )}
 
-            {/* Projects Section */}
-            {formData?.projects?.length > 0 &&
-                formData.projects.some((proj) => proj.name || proj.description) && (
-                    <section className="projects">
-                        <h2>Projects</h2>
-                        {formData.projects.map(
-                            (proj, index) =>
-                                (proj.name || proj.description) && (
-                                    <div key={index} className="project-item">
-                                        <div className="project-header">
-                                            {proj.name && <h3>{proj.name}</h3>}
-                                            {proj.link && (
-                                                <a href={proj.link} className="project-link">
-                                                    {proj.link}
-                                                </a>
+                {/* Education */}
+            {formData?.education?.length > 0 &&
+                formData.education.some((edu) => edu.degree || edu.school) && (
+                    <section className="education">
+                        <h2>Education</h2>
+                        {formData.education.map(
+                            (edu, index) =>
+                                (edu.degree || edu.school) && (
+                                    <div key={index} className="education-item">
+                                        {/* Degree, School & Location  */}
+                                        <h3>
+                                            {edu.degree}
+                                            {edu.school && ` at ${edu.school}`}
+                                            {edu.location && `, ${edu.location}`}
+                                        </h3>
+
+                                        {/* GPA & Start-End Date  */}
+                                        <div className="education-details">
+                                            {(edu.startDate || edu.endDate) && (
+                                                <span className="date">
+                                                    ({edu.startDate ? edu.startDate : "N/A"} - {edu.endDate ? edu.endDate : "Present"})
+                                                </span>
                                             )}
+                                            {edu.gpa && <span> GPA: {edu.gpa}</span>}
                                         </div>
-                                        {proj.description && (
-                                            <p
-                                                dangerouslySetInnerHTML={{
-                                                    __html: proj.description.replace(/\n/g, "<br/>"),
-                                                }}
-                                            ></p>
-                                        )}
+
+
                                     </div>
                                 )
                         )}
                     </section>
                 )}
-
-            {/* Skills Section */}
-            {formData?.skills && formData.skills.trim() && (
-                <section className="skills">
-                    <h2>Skills</h2>
-                    <div className="skills-container">
-                        {formData.skills.split(',').map((skill, index) => (
-                            <div key={index} className="skill-item">{skill.trim()}</div>
-                        ))}
-                    </div>
-                </section>
-            )}
 
             {/* Certifications */}
             {formData?.certifications?.length > 0 &&
