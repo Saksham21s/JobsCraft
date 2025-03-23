@@ -160,7 +160,6 @@ const styles = StyleSheet.create({
   projectEntry: {
     marginBottom: 8,
     padding: "6 8",
-    backgroundColor: "#f9fafb",
     borderRadius: 2,
   },
   certificationEntry: {
