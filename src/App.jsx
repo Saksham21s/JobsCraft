@@ -121,11 +121,6 @@ const App = () => {
   return (
     <ErrorBoundary>
       <Router>
-        <nav style={navStyles}>
-          <Link to="/" style={navLinkStyles}>Home</Link>
-          <Link to="/builder" style={navLinkStyles}>Resume Builder</Link>
-        </nav>
-
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/builder" element={<Builder />} />
@@ -152,22 +147,5 @@ const errorBoundaryStyles = {
   },
 };
 
-// Navbar styles
-const navStyles = {
-  display: 'flex',
-  justifyContent: 'center',
-  gap: '20px',
-  padding: '15px',
-  background: 'linear-gradient(145deg, #6c5ce7, #a55eea)',
-  boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-  borderRadius: '0 0 10px 10px',
-};
-
-const navLinkStyles = {
-  color: 'white',
-  textDecoration: 'none',
-  fontWeight: 'bold',
-  fontSize: '18px',
-};
 
 export default App;
