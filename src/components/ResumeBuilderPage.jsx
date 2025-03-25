@@ -4,9 +4,9 @@ import ResumePreview from "./ResumePreview";
 import FormInput from "./FormInput";
 import "../styles/App.css";
 import { FaPlus } from "react-icons/fa";
-import classic from "../assets/classic.avif";
+import classic from "../assets/classic.png";
 import modern from "../assets/Resume.png";
-import creative from "../assets/creative-resume.png";
+import creative from "../assets/Creative.avif";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

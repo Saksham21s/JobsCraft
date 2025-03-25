@@ -8,7 +8,8 @@ const ModernResume = ({ formData }) => {
     /* Header Section */
     .header {
         text-align: center;
-        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f0f0f0;
     }
 
     .header .name {
@@ -51,7 +52,8 @@ const ModernResume = ({ formData }) => {
     .projects,
     .skills,
     .certifications {
-        margin-bottom: 8px;
+     padding-block: 5px;
+    border-bottom: 1px solid #f0f0f0;
     }
 
     .summary h2,
@@ -63,8 +65,8 @@ const ModernResume = ({ formData }) => {
         font-size: 0.8rem;
         font-weight: 600;
         color: #000;
-        margin-bottom: 10px;
-        border-bottom: 0.5px solid #969696;
+        margin-bottom: 2px;
+        border-bottom: 1px solid #969696;
         padding-bottom: 3px;
     }
 
@@ -86,7 +88,7 @@ const ModernResume = ({ formData }) => {
     .project-item,
     .skills,
     .certifications-item {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.2rem;
     }
 
     .education-item h3,
@@ -173,13 +175,13 @@ const ModernResume = ({ formData }) => {
         color: #666;
     }
 
-    .credential-details span {
+    .credential-details span, .project-link span {
         font-size: 0.6rem;
         font-weight: 600;
     }
 
     /* Mobile Responsive */
-    @media (max-width: 480px) {
+       @media (max-width: 480px) {
         .header .contact {
             font-size: 0.4rem;
         }
@@ -189,23 +191,15 @@ const ModernResume = ({ formData }) => {
         .experience-item span,
         .project-item a,
         .skills p,
-        .certifications-item span {
+        .certifications-item span, .experience-item p,
+        .project-item p  {
             font-size: 0.4rem;
         }
 
         .education-item h3,
         .experience-item h3,
         .project-item h3,
-        .certifications-item h3 {
-            font-size: 0.6rem;
-        }
-
-        .experience-item p,
-        .project-item p {
-            font-size: 0.4rem;
-        }
-
-        .certifications-item .cert-title {
+        .certifications-item h3,.certifications-item .cert-title  {
             font-size: 0.6rem;
         }
 
@@ -343,9 +337,9 @@ const ModernResume = ({ formData }) => {
                     <div className="project-header">
                       {proj.name && <h3>{proj.name}</h3>}
                       {proj.link && (
-                        <a href={proj.link} className="project-link">
-                          {proj.link}
-                        </a>
+                        <div className="project-link">
+                         <span>Live - </span>  <a href={proj.link} target="_blank" rel="noopener noreferrer">{proj.link}</a>
+                        </div>
                       )}
                     </div>
                     {proj.description && (
@@ -402,7 +396,7 @@ const ModernResume = ({ formData }) => {
                             <a href={cert.credentialURL} target="_blank" rel="noopener noreferrer">
                               Verify Certificate
                             </a>
-                             &nbsp;)
+                            &nbsp;)
                           </span>
                         )}
                       </div>

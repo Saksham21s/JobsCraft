@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
     color: "#2d3748",
   },
   section: {
-    marginBottom: 12,
+    paddingBottom: 9,
+    borderBottom:" 2px solid #f0f0f0;"
   },
   row: {
     flexDirection: "row",
@@ -26,7 +27,8 @@ const styles = StyleSheet.create({
   },
   header: {
     textAlign: "center",
-    marginBottom: 15,
+     paddingBottom: 9,
+    borderBottom:" 2px solid #f0f0f0;"
   },
   name: {
     fontSize: 24,
@@ -65,8 +67,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     fontFamily: "Helvetica-Bold",
-    borderBottom: "1.5px solid #94a3b8",
+    borderBottom: "2px solid #94a3b8",
     paddingBottom: 4,
+    paddingTop: 6,
     marginBottom: 10,
     color: "#111827",
   },
@@ -98,6 +101,7 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica-Oblique",
     textAlign: "right",
     marginBottom: 4,
+    marginLeft: 12,
   },
   location: {
     fontSize: 10,
@@ -110,6 +114,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
     marginBottom: 4,
     fontWeight: "bold",
+    marginLeft: 12,
   },
   link: {
     fontSize: 11,
@@ -226,7 +231,7 @@ const ModernResumePDF = ({ formData }) => (
             edu.degree || edu.school ? (
               <View key={index} style={styles.entry}>
                 <Text style={styles.entryTitle}>
-                  <Text style={styles.dot}>•</Text> 
+                  <Text style={styles.dot}>• </Text> 
                   {edu.degree}
                   {edu.school && ` at ${edu.school}`}
                   {edu.location && `, ${edu.location}`}
@@ -253,7 +258,7 @@ const ModernResumePDF = ({ formData }) => (
             exp.title || exp.company ? (
               <View key={index} style={styles.entry}>
                 <Text style={styles.entryTitle}>
-                  <Text style={styles.dot}>•</Text> 
+                  <Text style={styles.dot}>• </Text> 
                   {exp.title}
                   {exp.company && ` at ${exp.company}`}
                 </Text>

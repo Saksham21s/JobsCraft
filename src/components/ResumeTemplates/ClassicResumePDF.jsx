@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#ffffff",
         textAlign: "center",
-        backgroundColor: "#2563eb",
-        padding: 10,
+        backgroundColor: "#333",
+        padding: 15,
         marginBottom: 12,
         textTransform: "uppercase",
         letterSpacing: 2,
@@ -79,14 +79,14 @@ const styles = StyleSheet.create({
     certificationTitle: {
         fontSize: 13,
         fontWeight: "bold",
-        color: "#1e40af",
+        color: "#222",
     },
     certificationSubtitle: {
         fontSize: 12,
         fontWeight: "bold",
         marginBottom: 3,
-        color:  "#2563eb",
-        marginLeft:7,
+        marginLeft:10,
+        color: "#4b5563",
     },
     certificationDate: {
         fontSize: 10,
@@ -97,14 +97,15 @@ const styles = StyleSheet.create({
     },
     itemTitle: {
         fontSize: 14,
-        fontWeight: "bold",
-        color: "#1e40af",
+        fontWeight:700,
+        color:"#222",
         marginBottom: 3,
     },
     itemSubtitle: {
         fontSize: 12,
         color: "#4b5563",
         marginBottom: 3,
+        marginLeft:7,
     },
     itemDate: {
         fontSize: 10,
@@ -138,8 +139,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     eduGpa: {
-        fontSize: 12,
-        color: "#2563eb",
+        fontSize: 10,
+        color: "#333;",
         fontWeight: "bold",
         marginBottom: 4,
         marginLeft:7,
@@ -254,11 +255,11 @@ const ModernResumePDF = ({ formData }) => (
                                     <View key={index} style={{ marginBottom: 8 }}>
                                         {edu.degree && (
                                             <Text style={styles.itemTitle}>
-                                                <Text style={styles.dot}>•</Text> {edu.degree}
+                                                <Text style={styles.dot}>• </Text> {edu.degree}
                                             </Text>
                                         )}
                                         {edu.school && (
-                                            <Text style={styles.eduGpa}>
+                                            <Text style={styles.itemSubtitle}>
                                                 {edu.school}{edu.location ? `, ${edu.location}` : ''}
                                             </Text>
                                         )}
@@ -283,7 +284,7 @@ const ModernResumePDF = ({ formData }) => (
                                     <View key={index} style={styles.certificationItem}>
                                         {cert.name && (
                                             <Text style={styles.certificationTitle}>
-                                                <Text style={styles.dot}>•</Text> {cert.name}
+                                                <Text style={styles.dot}>• </Text> {cert.name}
                                             </Text>
                                         )}
                                         {cert.issuer && (
@@ -330,7 +331,7 @@ const ModernResumePDF = ({ formData }) => (
                                     <View key={index} style={{ marginBottom: 8 }}>
                                         {(exp.title || exp.company) && (
                                             <Text style={styles.itemTitle}>
-                                                <Text style={styles.dot}>•</Text> 
+                                                <Text style={styles.dot}>• </Text> 
                                                 {exp.title} 
                                                 {exp.company && <Text style={styles.atText}> at {exp.company}</Text>}
                                             </Text>
@@ -359,7 +360,7 @@ const ModernResumePDF = ({ formData }) => (
                                         <View style={styles.projectRow}>
                                             {proj.name && (
                                                 <Text style={styles.itemTitle}>
-                                                    <Text style={styles.dot}>•</Text> {proj.name}
+                                                    <Text style={styles.dot}>• </Text> {proj.name}
                                                 </Text>
                                             )}
                                             {proj.link && (

@@ -37,7 +37,7 @@ const ModernResume = ({ formData }) => {
                     font-weight: 700;
                     color: white;
                     text-align: center;
-                    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+                    background: #333;
                     padding:10px;
                 }
 
@@ -62,7 +62,7 @@ const ModernResume = ({ formData }) => {
                 .section-header {
                     font-size: 11px;
                     font-weight: 600;
-                    color: var(--primary);
+                    color:#222;
                     margin-bottom: 6px;
                     text-transform: uppercase;
                     border-bottom: 1px solid var(--primary-light);
@@ -91,7 +91,7 @@ const ModernResume = ({ formData }) => {
                 .contact-icon {
                     width: 12px;
                     height: 12px;
-                    color: var(--primary);
+                    color:#333;
                     flex-shrink: 0;
                 }
 
@@ -162,7 +162,7 @@ const ModernResume = ({ formData }) => {
                 .item-title {
                     font-size: 11px;
                     font-weight: 600;
-                    color: var(--text-dark);
+                    color:#444;
                     margin-bottom: 2px;
                 }
 
@@ -195,7 +195,7 @@ const ModernResume = ({ formData }) => {
                 }
 
                 .project-link {
-                  font-size: 10px;
+                  font-size: 8px;
                   color: var(--primary);
                   text-decoration: none;
                 }
@@ -217,13 +217,14 @@ const ModernResume = ({ formData }) => {
 
                 .edu-gpa {
                   font-size: 10px;
-                  color: var(--primary);
-                  font-weight: 500;
+                  color:  #71717a;
+                  font-weight: 600;
                 }
 
                 .item-date {
                   font-size: 9px;
                   color: #71717a;
+                  font-style: italic;
                 }
 
                 .dot {
