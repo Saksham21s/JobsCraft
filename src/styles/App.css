@@ -1,3 +1,8 @@
+/* Prevent body visibility until dark mode is applied to avoid layout shift */
+html:not(.loaded) {
+  visibility: hidden;
+}
+
 * {
   margin: 0;
   padding: 0;

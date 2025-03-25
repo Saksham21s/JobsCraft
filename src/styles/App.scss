@@ -9,6 +9,12 @@ $dark-accent: #ff007b;
 $dark-hover: #ff7300;
 $border-radius: 10px;
 
+/* Prevent body visibility until dark mode is applied to avoid layout shift */
+html:not(.loaded) {
+  visibility: hidden;
+}
+
+
 @mixin flex-center {
   display: flex;
   align-items: center;

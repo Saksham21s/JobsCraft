@@ -4,10 +4,16 @@ import "../styles/App.min.css";
 import logo from "../assets/logo.png";
 import { Sun, Moon } from "react-feather";
 
+// Apply dark mode immediately and prevent layout shifts
+if (localStorage.getItem("darkMode") === "true") {
+  document.documentElement.classList.add("dark");
+}
+document.documentElement.classList.add("loaded");
+
 function NavBar({ hideToggle }) {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-  
+
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem("darkMode");
     return savedMode === "true" || false;
