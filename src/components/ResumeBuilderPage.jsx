@@ -10,25 +10,32 @@ import creative from "../assets/creative-resume.png";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const defaultFormData = {
+    fullName: "",
+    jobTitle: "",
+    email: "",
+    phone: "",
+    address: "",
+    linkedin: "",
+    github: "",
+    portfolio: "",
+    summary: "",
+    education: [{ degree: "", school: "", startDate: "", endDate: "", location: "", gpa: "" }],
+    experience: [{ title: "", company: "", startDate: "", endDate: "", location: "", description: "" }],
+    projects: [{ name: "", link: "", description: "" }],
+    skills: "",
+    certifications: [{ name: "", issuer: "", issueDate: "", expirationDate: "", credentialID: "", credentialURL: "" }]
+};
+
 const ResumeBuilder = () => {
     const [formData, setFormData] = useState(() => {
-        const storedData = localStorage.getItem("formData");
-        return storedData ? JSON.parse(storedData) : {
-            fullName: "",
-            jobTitle: "",
-            email: "",
-            phone: "",
-            address: "",
-            linkedin: "",
-            github: "",
-            portfolio: "",
-            summary: "",
-            education: [{ degree: "", school: "", startDate: "", endDate: "", location: "", gpa: "" }],
-            experience: [{ title: "", company: "", startDate: "", endDate: "", location: "", description: "" }],
-            projects: [{ name: "", link: "", description: "" }],
-            skills: "",
-            certifications: [{ name: "", issuer: "", issueDate: "", expirationDate: "", credentialID: "", credentialURL: "" }]
-        };
+        try {
+            const storedData = localStorage.getItem("formData");
+            return storedData ? JSON.parse(storedData) : defaultFormData;
+        } catch (error) {
+            console.error("Failed to parse formData from localStorage", error);
+            return defaultFormData;
+        }
     });
 
     const [activeTab, setActiveTab] = useState(() => sessionStorage.getItem("activeTab") || "Contact");

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaSave, FaTrash, FaEdit, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
@@ -25,73 +25,58 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
 
     const [expandedSections, setExpandedSections] = useState(() => {
         const storedSections = localStorage.getItem("expandedSections");
-        if (storedSections) {
-            return JSON.parse(storedSections);
-        } else {
-            return {
-                "education-0": true,
-                "experience-0": true,
-                "projects-0": true,
-                "certifications-0": true
-            };
-        }
+        return storedSections ? JSON.parse(storedSections) : {
+            "education-0": true,
+            "experience-0": true,
+            "projects-0": true,
+            "certifications-0": true
+        };
     });
 
-    useEffect(() => {
-        localStorage.setItem("formData", JSON.stringify(localFormData));
-        localStorage.setItem("expandedSections", JSON.stringify(expandedSections));
-        
-        setFormData(localFormData);
-    }, [localFormData, expandedSections, setFormData]);
+    const updateNestedState = (prevState, name, value) => {
+        const keys = name.split('.');
+        const newState = JSON.parse(JSON.stringify(prevState));
+        let current = newState;
+
+        for (let i = 0; i < keys.length - 1; i++) {
+            const key = keys[i];
+            if (!current[key]) {
+                current[key] = isNaN(keys[i + 1]) ? {} : [];
+            }
+            current = current[key];
+        }
+
+        current[keys[keys.length - 1]] = value;
+        return newState;
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        let newValue = value;
-    
-        if (e.target.tagName === "TEXTAREA") {
-            if (e.nativeEvent.inputType === "insertLineBreak") {
+        setLocalFormData(prev => {
+            let newValue = value;
+            if (e.target.tagName === "TEXTAREA" && e.nativeEvent.inputType === "insertLineBreak") {
                 newValue = value + "• ";
             }
-        }
-    
-        setLocalFormData(prev => {
-            const keys = name.split('.');
-            let temp = { ...prev };
-            let current = temp;
-            for (let i = 0; i < keys.length - 1; i++) {
-                current = current[keys[i]];
-            }
-            current[keys[keys.length - 1]] = newValue;
-            return temp;
+            return updateNestedState(prev, name, newValue);
         });
     };
-    
+
     const handleKeyDown = (e) => {
         if (e.target.tagName === "TEXTAREA" && e.key === "Backspace") {
-            const { value, selectionStart } = e.target;
-            if (value[selectionStart - 1] === "•" && value[selectionStart - 2] === "\n") {
+            const { value, selectionStart, name } = e.target;
+            if (value.substring(selectionStart - 2, selectionStart) === "\n•") {
                 e.preventDefault();
-                const newValue = value.slice(0, selectionStart - 2) + value.slice(selectionStart);
+                const newValue = value.substring(0, selectionStart - 2) + value.substring(selectionStart);
                 e.target.value = newValue;
-                setLocalFormData(prev => {
-                    const keys = e.target.name.split('.');
-                    let temp = { ...prev };
-                    let current = temp;
-                    for (let i = 0; i < keys.length - 1; i++) {
-                        current = current[keys[i]];
-                    }
-                    current[keys[keys.length - 1]] = newValue;
-                    return temp;
-                });
+                setLocalFormData(prev => updateNestedState(prev, name, newValue));
             }
         }
     };
-    
+
     const handleSave = () => {
-        // Check if the current active tab has required fields filled
         let isValid = true;
         let errorMessage = "";
-        
+
         switch (activeTab) {
             case "Contact":
                 if (!localFormData.fullName.trim()) {
@@ -105,61 +90,46 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
                     errorMessage = "Please enter your phone number";
                 }
                 break;
-                
             case "Summary":
                 if (!localFormData.summary.trim()) {
                     isValid = false;
                     errorMessage = "Please enter a professional summary";
                 }
                 break;
-                
             case "Education":
-                if (localFormData.education.length === 0 || 
-                    !localFormData.education[0].degree.trim() || 
-                    !localFormData.education[0].school.trim()) {
+                if (localFormData.education.length === 0 || !localFormData.education[0].degree.trim() || !localFormData.education[0].school.trim()) {
                     isValid = false;
                     errorMessage = "Please enter your education details";
                 }
                 break;
-                
             case "Experience":
-                if (localFormData.experience.length === 0 || 
-                    !localFormData.experience[0].title.trim() || 
-                    !localFormData.experience[0].company.trim()) {
+                if (localFormData.experience.length === 0 || !localFormData.experience[0].title.trim() || !localFormData.experience[0].company.trim()) {
                     isValid = false;
                     errorMessage = "Please enter your work experience details";
                 }
                 break;
-                
             case "Projects":
-                if (localFormData.projects.length === 0 || 
-                    !localFormData.projects[0].name.trim() || 
-                    !localFormData.projects[0].description.trim()) {
+                if (localFormData.projects.length === 0 || !localFormData.projects[0].name.trim() || !localFormData.projects[0].description.trim()) {
                     isValid = false;
                     errorMessage = "Please enter your project details";
                 }
                 break;
-                
             case "Skills":
                 if (!localFormData.skills.trim()) {
                     isValid = false;
                     errorMessage = "Please enter your skills";
                 }
                 break;
-                
             case "Certifications":
-                if (localFormData.certifications.length === 0 || 
-                    !localFormData.certifications[0].name.trim() || 
-                    !localFormData.certifications[0].issuer.trim()) {
+                if (localFormData.certifications.length === 0 || !localFormData.certifications[0].name.trim() || !localFormData.certifications[0].issuer.trim()) {
                     isValid = false;
                     errorMessage = "Please enter your certification details";
                 }
                 break;
-                
             default:
                 break;
         }
-        
+
         if (!isValid) {
             toast.error(errorMessage, {
                 position: "top-center",
@@ -171,14 +141,15 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
             });
             return;
         }
-        
-        // If validation passes, save the data
+
+        localStorage.setItem("formData", JSON.stringify(localFormData));
         setFormData(localFormData);
         toast.success(`${activeTab} section saved successfully!`, {
             position: "top-center",
             autoClose: 2000,
         });
     };
+
 
     const handleAdd = (section) => {
         setLocalFormData(prev => ({
@@ -196,66 +167,28 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
 
     const toggleSection = (section, index) => {
         const sectionKey = `${section}-${index}`;
-        const newExpandedSections = {};
-        
-        // If the section is already open, close it
-        if (expandedSections[sectionKey]) {
-            setExpandedSections({});
-        } else {
-            // Otherwise, close all and open just this one
-            newExpandedSections[sectionKey] = true;
-            setExpandedSections(newExpandedSections);
-        }
+        setExpandedSections(prev => ({
+            ...prev,
+            [sectionKey]: !prev[sectionKey]
+        }));
     };
 
     const handleMoveUp = (section, index) => {
         if (index === 0) return;
-        
-        // Save the expanded state before moving
-        const currentExpanded = expandedSections[`${section}-${index}`];
-        
         setLocalFormData(prev => {
             const newArray = [...prev[section]];
             [newArray[index], newArray[index - 1]] = [newArray[index - 1], newArray[index]];
-            return {
-                ...prev,
-                [section]: newArray
-            };
+            return { ...prev, [section]: newArray };
         });
-        
-        // Update expanded sections to maintain the same item expanded after moving
-        if (currentExpanded) {
-            setExpandedSections(prev => ({
-                ...prev,
-                [`${section}-${index}`]: false,
-                [`${section}-${index-1}`]: true
-            }));
-        }
     };
 
     const handleMoveDown = (section, index) => {
         if (index === localFormData[section].length - 1) return;
-        
-        // Save the expanded state before moving
-        const currentExpanded = expandedSections[`${section}-${index}`];
-        
         setLocalFormData(prev => {
             const newArray = [...prev[section]];
             [newArray[index], newArray[index + 1]] = [newArray[index + 1], newArray[index]];
-            return {
-                ...prev,
-                [section]: newArray
-            };
+            return { ...prev, [section]: newArray };
         });
-        
-        // Update expanded sections to maintain the same item expanded after moving
-        if (currentExpanded) {
-            setExpandedSections(prev => ({
-                ...prev,
-                [`${section}-${index}`]: false,
-                [`${section}-${index+1}`]: true
-            }));
-        }
     };
 
     const renderInputFields = () => {
@@ -266,35 +199,74 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
                         <div className="form-row">
                             <div className="input-group">
                                 <label>Full Name</label>
-                                <input type="text" name="fullName" placeholder="John Doe" value={localFormData.fullName} onChange={handleChange} />
+                                <input
+                                    type="text"
+                                    name="fullName"
+                                    placeholder="John Doe"
+                                    value={localFormData.fullName || ""} // Prevent undefined
+                                    onChange={handleChange}
+                                />
                             </div>
                             <div className="input-group">
                                 <label>Email</label>
-                                <input type="email" name="email" placeholder="johndoe@example.com" value={localFormData.email} onChange={handleChange} />
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="johndoe@example.com"
+                                    value={localFormData.email || ""}
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
-                        <div className="form-row"> 
+
+                        <div className="form-row">
                             <div className="input-group">
                                 <label>Phone</label>
-                                <input type="text" name="phone" placeholder="(123) 456-7890" value={localFormData.phone} onChange={handleChange} />
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    placeholder="(123) 456-7890"
+                                    value={localFormData.phone || ""}
+                                    onChange={handleChange}
+                                />
                             </div>
                             <div className="input-group">
                                 <label>GitHub</label>
-                                <input type="text" name="github" placeholder="github.com/username" value={localFormData.github} onChange={handleChange} />
+                                <input
+                                    type="text"
+                                    name="github"
+                                    placeholder="github.com/username"
+                                    value={localFormData.github || ""}
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
+
                         <div className="form-row">
-                        <div className="input-group">
+                            <div className="input-group">
                                 <label>Portfolio</label>
-                                <input type="text" name="portfolio" placeholder="yourportfolio.com" value={localFormData.portfolio} onChange={handleChange} />
+                                <input
+                                    type="text"
+                                    name="portfolio"
+                                    placeholder="yourportfolio.com"
+                                    value={localFormData.portfolio || ""}
+                                    onChange={handleChange}
+                                />
                             </div>
                             <div className="input-group">
                                 <label>LinkedIn</label>
-                                <input type="text" name="linkedin" placeholder="linkedin.com/in/username" value={localFormData.linkedin} onChange={handleChange} />
+                                <input
+                                    type="text"
+                                    name="linkedin"
+                                    placeholder="linkedin.com/in/username"
+                                    value={localFormData.linkedin || ""}
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
                     </>
                 );
+
             case "Summary":
                 return (
                     <div className="input-group g1">
@@ -413,7 +385,7 @@ const FormInput = ({ activeTab, setActiveTab, setFormData }) => {
                                             </div>
                                             <div className="input-group">
                                                 <label>Description</label>
-                                                <textarea name={`experience.${index}.description`} placeholder="• Developed and maintained web applications using React.js&#10;• Collaborated with cross-functional teams to deliver projects on time&#10;• Improved application performance by 30%" value={exp.description || "" } onChange={handleChange} onKeyDown={handleKeyDown}></textarea>
+                                                <textarea name={`experience.${index}.description`} placeholder="• Developed and maintained web applications using React.js&#10;• Collaborated with cross-functional teams to deliver projects on time&#10;• Improved application performance by 30%" value={exp.description || ""} onChange={handleChange} onKeyDown={handleKeyDown}></textarea>
                                             </div>
                                         </div>
                                     </div>
