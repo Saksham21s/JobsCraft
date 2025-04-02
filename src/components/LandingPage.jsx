@@ -30,13 +30,14 @@ const LandingPage = () => {
                     </p>
                     <div className="button-group">
                         <button className="create-resume-btn" onClick={() => navigate("/builder")}>
-                            Build My Resume 📝
+                            Build Resume 📝
                         </button>
-                        <a href="https://www.linkedin.com/in/saksham-pandey21/" target="_blank" rel="noopener noreferrer" className="view-source-btn">
-                            Follow Me
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style={{ marginLeft: '8px', verticalAlign: 'middle' , fill: 'white'}}>
-                                <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                        <a href="https://jobscraft-interview.vercel.app/" target="_blank" rel="noopener noreferrer" className="view-source-btn">
+                            Analyze Resume
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style={{ marginLeft: '8px', verticalAlign: 'middle', fill: 'white' }}>
+                                <path d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 001.48-4.23c0-3.59-2.91-6.5-6.5-6.5S3.5 5.91 3.5 9.5 6.41 16 10 16c1.61 0 3.09-.59 4.23-1.48l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-5.5 0c-2.76 0-5-2.24-5-5S7.24 4 10 4s5 2.24 5 5-2.24 5-5 5z" />
                             </svg>
+
                         </a>
                     </div>
                 </div>
